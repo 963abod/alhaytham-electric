@@ -8,13 +8,11 @@ start_pos = html.find(start_tag)
 end_pos = html.find(end_tag, start_pos)
 
 if start_pos != -1 and end_pos != -1:
-    old_script_block = html[start_pos:end_pos + len(end_tag)]
-
-    new_script = """<script type="module">
+    new_script = r"""<script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
   const SUPABASE_URL = 'https://eftlniajfnvvzmxswgtj.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_gH!@#$1234567890abcdefghijklmnopqrstuvwxyz';
+  const SUPABASE_KEY = 'sb_publishable_6ypXec8dblC0ZHq7ERXUuw_TzXAZTnu';
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   // Icons
@@ -42,7 +40,7 @@ if start_pos != -1 and end_pos != -1:
     if (!url) return null;
 
     // YouTube
-    let ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^\"&?\/\s]{11})/i);
+    let ytMatch = url.match(/(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/i);
     if (ytMatch && ytMatch[1]) {
       return {
         type: 'youtube',
@@ -52,7 +50,7 @@ if start_pos != -1 and end_pos != -1:
     }
 
     // Vimeo
-    let vimeoMatch = url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/[^\/]*\/videos\/|album\/\d+\/video\/|video\/|)(\d+)/i);
+    let vimeoMatch = url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/[^/]*\/videos\/|album\/\d+\/video\/|video\/|)(\d+)/i);
     if (vimeoMatch && vimeoMatch[1]) {
       return {
         type: 'vimeo',
@@ -563,36 +561,48 @@ if start_pos != -1 and end_pos != -1:
         category: categoryVal,
         description: descVal,
         image_url: imageVal,
-        video_url: videoVal,
         whatsapp_message: waVal,
         sort_order: sortVal
       };
+      if (videoVal) payload.video_url = videoVal;
     } else {
       payload = {
         caption: nameVal,
         description: descVal,
         image_url: imageVal,
-        video_url: videoVal,
         sort_order: sortVal
       };
+      if (videoVal) payload.video_url = videoVal;
     }
 
     try {
       if (editingMode === 'edit' && itemId) {
-        const { data, error } = await supabase.from(tableName).update(payload).eq('id', itemId).select();
+        let { data, error } = await supabase.from(tableName).update(payload).eq('id', itemId).select();
+        if (error && error.code === 'PGRST204' && 'video_url' in payload) {
+          delete payload.video_url;
+          const retry = await supabase.from(tableName).update(payload).eq('id', itemId).select();
+          data = retry.data;
+          error = retry.error;
+        }
         if (error) console.error('Supabase update error:', error);
 
         const list = itemType === 'products' ? productsData : galleryData;
         const index = list.findIndex(i => String(i.id) === String(itemId));
         if (index !== -1) {
-          list[index] = { ...list[index], ...payload };
+          list[index] = { ...list[index], ...payload, video_url: videoVal };
         }
         showToast(itemType === 'products' ? 'تم تعديل المنتج بنجاح!' : 'تم تعديل المشروع بنجاح!');
       } else {
-        const { data, error } = await supabase.from(tableName).insert([payload]).select();
+        let { data, error } = await supabase.from(tableName).insert([payload]).select();
+        if (error && error.code === 'PGRST204' && 'video_url' in payload) {
+          delete payload.video_url;
+          const retry = await supabase.from(tableName).insert([payload]).select();
+          data = retry.data;
+          error = retry.error;
+        }
         if (error) console.error('Supabase insert error:', error);
 
-        const newRecord = (data && data[0]) ? data[0] : { id: Date.now(), ...payload };
+        const newRecord = (data && data[0]) ? data[0] : { id: String(Date.now()), ...payload, video_url: videoVal };
         if (itemType === 'products') {
           productsData.push(newRecord);
         } else {
@@ -697,26 +707,37 @@ if start_pos != -1 and end_pos != -1:
     }
 
     try {
-      const { data: products } = await supabase.from('products').select('*').order('category').order('sort_order');
-      productsData = products || [];
+      const { data: products, error: pError } = await supabase.from('products').select('*').order('category').order('sort_order');
+      if (pError) console.warn('Products DB fetch error:', pError);
+      if (products && products.length > 0) {
+        productsData = products;
+      } else {
+        productsData = DEFAULT_PRODUCTS;
+      }
       renderProductsCarousel();
     } catch (e) {
-      console.warn('Products load error:', e);
-      productsData = [];
+      console.warn('Products load exception:', e);
+      productsData = DEFAULT_PRODUCTS;
       renderProductsCarousel();
     }
 
     try {
-      const { data: gallery } = await supabase.from('gallery').select('*').order('sort_order');
-      galleryData = gallery || [];
+      const { data: gallery, error: gError } = await supabase.from('gallery').select('*').order('sort_order');
+      if (gError) console.warn('Gallery DB fetch error:', gError);
+      if (gallery && gallery.length > 0) {
+        galleryData = gallery;
+      } else {
+        galleryData = DEFAULT_GALLERY;
+      }
       renderGallery();
     } catch (e) {
-      console.warn('Gallery load error:', e);
-      galleryData = [];
+      console.warn('Gallery load exception:', e);
+      galleryData = DEFAULT_GALLERY;
       renderGallery();
     }
 
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+    renderAdminList();
   }
 
   // Bind Event Listeners
@@ -738,11 +759,9 @@ if start_pos != -1 and end_pos != -1:
 
   loadSite();
 </script>"""
-
     updated_html = html[:start_pos] + new_script + html[end_pos + len(end_tag):]
     with open('index.html', 'w', encoding='utf-8') as f:
         f.write(updated_html)
-
     print("Successfully replaced script module.")
 else:
     print("Error: Could not locate script tag.")
