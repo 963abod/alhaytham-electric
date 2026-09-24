@@ -1399,7 +1399,6 @@
     <nav class="navlinks">
       <a href="#about">من نحن</a><a href="#services">الخدمات</a><a href="#products">المنتجات</a><a href="#works">أعمالنا</a><a href="#contact">تواصل معنا</a>
     </nav>
-        <button class="admin-trigger-btn" id="open-admin-btn" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> لوحة التحكم</button>
     <a class="cta-mini" id="nav-whatsapp" href="#" target="_blank" rel="noopener">واتساب</a>
   </div>
 </header>
@@ -2264,12 +2263,12 @@
       if (products && products.length > 0) {
         productsData = products;
       } else {
-        productsData = DEFAULT_PRODUCTS;
+        productsData = typeof DEFAULT_PRODUCTS !== 'undefined' ? DEFAULT_PRODUCTS : [];
       }
       renderProductsCarousel();
     } catch (e) {
       console.warn('Products load exception:', e);
-      productsData = DEFAULT_PRODUCTS;
+      productsData = typeof DEFAULT_PRODUCTS !== 'undefined' ? DEFAULT_PRODUCTS : [];
       renderProductsCarousel();
     }
 
@@ -2279,12 +2278,12 @@
       if (gallery && gallery.length > 0) {
         galleryData = gallery;
       } else {
-        galleryData = DEFAULT_GALLERY;
+        galleryData = typeof DEFAULT_GALLERY !== 'undefined' ? DEFAULT_GALLERY : [];
       }
       renderGallery();
     } catch (e) {
       console.warn('Gallery load exception:', e);
-      galleryData = DEFAULT_GALLERY;
+      galleryData = typeof DEFAULT_GALLERY !== 'undefined' ? DEFAULT_GALLERY : [];
       renderGallery();
     }
 
@@ -2292,8 +2291,19 @@
     renderAdminList();
   }
 
+  function checkAdminRoute() {
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    if (hash === '#admin' || hash === '#dashboard' || path.endsWith('/admin') || path.endsWith('/dashboard')) {
+      openAdminModal();
+    }
+  }
+
+  window.addEventListener('hashchange', checkAdminRoute);
+
   // Bind Event Listeners
   document.addEventListener('DOMContentLoaded', () => {
+    checkAdminRoute();
     document.getElementById('open-admin-btn')?.addEventListener('click', openAdminModal);
     document.getElementById('close-admin-btn')?.addEventListener('click', closeAdminModal);
 

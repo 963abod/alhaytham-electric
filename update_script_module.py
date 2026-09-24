@@ -712,12 +712,12 @@ if start_pos != -1 and end_pos != -1:
       if (products && products.length > 0) {
         productsData = products;
       } else {
-        productsData = DEFAULT_PRODUCTS;
+        productsData = typeof DEFAULT_PRODUCTS !== 'undefined' ? DEFAULT_PRODUCTS : [];
       }
       renderProductsCarousel();
     } catch (e) {
       console.warn('Products load exception:', e);
-      productsData = DEFAULT_PRODUCTS;
+      productsData = typeof DEFAULT_PRODUCTS !== 'undefined' ? DEFAULT_PRODUCTS : [];
       renderProductsCarousel();
     }
 
@@ -727,12 +727,12 @@ if start_pos != -1 and end_pos != -1:
       if (gallery && gallery.length > 0) {
         galleryData = gallery;
       } else {
-        galleryData = DEFAULT_GALLERY;
+        galleryData = typeof DEFAULT_GALLERY !== 'undefined' ? DEFAULT_GALLERY : [];
       }
       renderGallery();
     } catch (e) {
       console.warn('Gallery load exception:', e);
-      galleryData = DEFAULT_GALLERY;
+      galleryData = typeof DEFAULT_GALLERY !== 'undefined' ? DEFAULT_GALLERY : [];
       renderGallery();
     }
 
@@ -740,8 +740,19 @@ if start_pos != -1 and end_pos != -1:
     renderAdminList();
   }
 
+  function checkAdminRoute() {
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    if (hash === '#admin' || hash === '#dashboard' || path.endsWith('/admin') || path.endsWith('/dashboard')) {
+      openAdminModal();
+    }
+  }
+
+  window.addEventListener('hashchange', checkAdminRoute);
+
   // Bind Event Listeners
   document.addEventListener('DOMContentLoaded', () => {
+    checkAdminRoute();
     document.getElementById('open-admin-btn')?.addEventListener('click', openAdminModal);
     document.getElementById('close-admin-btn')?.addEventListener('click', closeAdminModal);
 
