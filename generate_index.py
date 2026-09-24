@@ -551,7 +551,8 @@ modals_html = """
 <div id="toast-container" class="toast-container"></div>
 """
 
-html = html.replace('</body>', modals_html + '\n</body>')
+if 'id="admin-overlay"' not in html:
+    html = html.replace('</body>', modals_html + '\n</body>')
 
 with open('index.html', 'w', encoding='utf-8') as f:
     f.write(html)
