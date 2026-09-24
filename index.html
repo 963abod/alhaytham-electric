@@ -386,6 +386,123 @@
       transition:none;
     }
   }
+
+  /* =========================================
+     WORKS LIGHTBOX OVERLAY
+     ========================================= */
+
+  .gw-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:rgba(10,9,8,.94);
+    backdrop-filter:blur(12px);
+    opacity:0;
+    transition:opacity .3s ease;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    overflow-y:auto;
+  }
+
+  .gw-overlay.open{
+    display:flex;
+    opacity:1;
+  }
+
+  .gw-modal{
+    position:relative;
+    width:100%;
+    max-width:960px;
+    margin:auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    animation:gwZoom .3s ease forwards;
+  }
+
+  @keyframes gwZoom{
+    from{transform:scale(.92);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+  }
+
+  .gw-close{
+    position:absolute;
+    top:-48px;
+    left:0;
+    z-index:10;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:8px 16px;
+    border-radius:999px;
+    background:rgba(24,22,20,.85);
+    color:var(--ink);
+    border:1px solid var(--line);
+    font-family:'Almarai',sans-serif;
+    font-size:.85rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:color .2s,border-color .2s,background .2s;
+  }
+
+  .gw-close:hover{
+    color:var(--gold-bright);
+    border-color:rgba(201,162,39,.55);
+    background:rgba(201,162,39,.12);
+  }
+
+  .gw-img-wrap{
+    width:100%;
+    max-height:75vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:radial-gradient(70% 70% at 50% 50%, rgba(201,162,39,.1), var(--bg-2));
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:16px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,.6);
+  }
+
+  .gw-img-wrap img{
+    max-width:100%;
+    max-height:70vh;
+    object-fit:contain;
+    border-radius:10px;
+  }
+
+  .gw-caption{
+    margin-top:18px;
+    text-align:center;
+    color:var(--ink);
+    font-size:1.05rem;
+    line-height:1.7;
+    max-width:800px;
+    font-weight:500;
+  }
+
+  @media (max-width:639px){
+    .gw-close{
+      position:static;
+      align-self:flex-end;
+      margin-bottom:12px;
+    }
+    .gw-img-wrap{
+      max-height:65vh;
+      padding:10px;
+    }
+    .gw-img-wrap img{
+      max-height:60vh;
+    }
+    .gw-caption{
+      font-size:.95rem;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -687,6 +804,63 @@
 
   });
 
+
+  /* =========================================
+     WORKS GALLERY LIGHTBOX
+     ========================================= */
+  let worksLightboxOpen = false;
+
+  window.openWorksLightbox = function(imageUrl, captionText) {
+    const overlay = document.getElementById('works-lightbox');
+    const img = document.getElementById('gw-img');
+    const caption = document.getElementById('gw-caption');
+
+    if (!overlay || !img || !caption) return;
+
+    img.src = imageUrl || '';
+    img.alt = captionText || 'صورة العمل';
+    caption.textContent = captionText || '';
+
+    overlay.classList.add('open');
+    worksLightboxOpen = true;
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeWorksLightbox = function() {
+    const overlay = document.getElementById('works-lightbox');
+    if (!overlay) return;
+
+    overlay.classList.remove('open');
+    worksLightboxOpen = false;
+    document.body.style.overflow = '';
+
+    setTimeout(() => {
+      if (!worksLightboxOpen) {
+        const img = document.getElementById('gw-img');
+        const caption = document.getElementById('gw-caption');
+        if (img) img.src = '';
+        if (caption) caption.textContent = '';
+      }
+    }, 300);
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && worksLightboxOpen) {
+      closeWorksLightbox();
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const worksOverlay = document.getElementById('works-lightbox');
+    if (worksOverlay) {
+      worksOverlay.addEventListener('click', function(e) {
+        if (e.target === worksOverlay) {
+          closeWorksLightbox();
+        }
+      });
+    }
+  });
+
   async function loadSite(){
     const { data: settings } = await supabase.from('site_settings').select('*').eq('id',1).single();
     if(settings){
@@ -762,7 +936,9 @@
       gallery.forEach(g=>{
         const div = document.createElement('div');
         div.className='w-tile';
+        div.style.cursor='pointer';
         div.innerHTML = `<img src="${g.image_url}" alt="${g.caption||''}">`;
+        div.addEventListener('click', ()=>openWorksLightbox(g.image_url, g.caption||g.description||''));
         wGrid.appendChild(div);
       });
     } else {
@@ -776,6 +952,19 @@
   }
   loadSite();
 </script>
+
+
+<div id="works-lightbox" class="gw-overlay" role="dialog" aria-modal="true" aria-label="عرض العمل بحجم كامل">
+  <div class="gw-modal" onclick="event.stopPropagation()">
+    <button class="gw-close" type="button" onclick="closeWorksLightbox()" aria-label="إغلاق">
+      <span aria-hidden="true">✕</span> إغلاق
+    </button>
+    <div class="gw-img-wrap">
+      <img id="gw-img" src="" alt="">
+    </div>
+    <div id="gw-caption" class="gw-caption"></div>
+  </div>
+</div>
 
 </body>
 </html>
