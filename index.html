@@ -503,442 +503,6 @@
     }
   }
 
-
-  /* =========================================
-     VIDEO PLAYER & BADGES
-     ========================================= */
-  .responsive-video-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: #000;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--line);
-  }
-  .responsive-video-wrap iframe,
-  .responsive-video-wrap video {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    object-fit: contain;
-  }
-  .video-badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(10, 9, 8, 0.85);
-    color: var(--gold-bright);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 3px 10px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    z-index: 3;
-    backdrop-filter: blur(6px);
-  }
-
-  /* =========================================
-     PRODUCTS HORIZONTAL CAROUSEL
-     ========================================= */
-  .products-carousel-container {
-    position: relative;
-    margin-top: 28px;
-  }
-  .products-carousel-wrap {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    padding: 12px 4px 24px 4px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .products-carousel-wrap::-webkit-scrollbar {
-    display: none;
-  }
-  .p-card-carousel {
-    flex: 0 0 clamp(270px, 78vw, 320px);
-    scroll-snap-align: start;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
-    display: flex;
-    flex-direction: column;
-    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    position: relative;
-  }
-  .p-card-carousel:hover {
-    transform: translateY(-6px);
-    border-color: rgba(201,162,39,.5);
-    box-shadow: 0 20px 40px -20px rgba(201,162,39,.6);
-  }
-  .carousel-controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 18px;
-    padding: 0 8px;
-  }
-  .carousel-arrow {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--bg-1);
-    border: 1px solid var(--line);
-    color: var(--gold-bright);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all .2s ease;
-  }
-  .carousel-arrow:hover:not(:disabled) {
-    background: var(--gold-bright);
-    color: var(--bg-0);
-    border-color: var(--gold-bright);
-  }
-  .carousel-arrow:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-  }
-  .carousel-dots {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: center;
-  }
-  .carousel-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(201, 162, 39, 0.25);
-    transition: all .25s ease;
-    cursor: pointer;
-  }
-  .carousel-dot.active {
-    width: 22px;
-    border-radius: 999px;
-    background: var(--gold-bright);
-  }
-
-  /* =========================================
-     ADMIN PANEL & EDITOR MODAL
-     ========================================= */
-  .admin-trigger-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 999px;
-    background: rgba(201, 162, 39, 0.12);
-    border: 1px solid var(--line);
-    color: var(--gold-bright);
-    font-size: 0.85rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: 'Almarai', sans-serif;
-  }
-  .admin-trigger-btn:hover {
-    background: var(--gold-bright);
-    color: var(--bg-0);
-  }
-
-  .admin-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    background: rgba(10, 9, 8, 0.94);
-    backdrop-filter: blur(14px);
-    overflow-y: auto;
-    padding: 24px 16px;
-  }
-  .admin-overlay.open {
-    display: block;
-  }
-  .admin-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    background: var(--bg-1);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-  }
-  .admin-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .admin-header h2 {
-    font-size: 1.4rem;
-    margin: 0;
-    color: var(--gold-bright);
-  }
-  .admin-tabs {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 12px;
-  }
-  .admin-tab-btn {
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--ink-muted);
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
-  }
-  .admin-tab-btn.active {
-    background: var(--gold-dim);
-    color: var(--gold-bright);
-    border-color: var(--line);
-  }
-  .admin-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .admin-search {
-    flex: 1;
-    min-width: 200px;
-    padding: 10px 16px;
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    color: var(--ink);
-    font-family: inherit;
-    font-size: 0.9rem;
-  }
-  .admin-add-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 20px;
-    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
-    color: var(--bg-0);
-    border: none;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.88rem;
-    cursor: pointer;
-    font-family: inherit;
-    transition: transform 0.2s;
-  }
-  .admin-add-btn:hover {
-    transform: translateY(-2px);
-  }
-
-  .admin-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .admin-item-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .admin-item-info {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex: 1;
-    min-width: 240px;
-  }
-  .admin-item-thumb {
-    width: 56px;
-    height: 56px;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    background: var(--bg-0);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--line);
-  }
-  .admin-item-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .admin-item-details h4 {
-    margin: 0 0 4px;
-    font-size: 0.98rem;
-    font-weight: 700;
-  }
-  .admin-item-details p {
-    margin: 0;
-    font-size: 0.82rem;
-    color: var(--ink-muted);
-  }
-  .admin-item-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .btn-action-edit {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border-radius: 8px;
-    background: rgba(242, 201, 76, 0.15);
-    color: var(--gold-bright);
-    border: 1px solid rgba(201, 162, 39, 0.3);
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
-  }
-  .btn-action-edit:hover {
-    background: var(--gold-bright);
-    color: var(--bg-0);
-  }
-  .btn-action-delete {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border-radius: 8px;
-    background: rgba(235, 87, 87, 0.12);
-    color: #eb5757;
-    border: 1px solid rgba(235, 87, 87, 0.3);
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
-  }
-  .btn-action-delete:hover {
-    background: #eb5757;
-    color: #fff;
-  }
-
-  .editor-modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 250;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(10px);
-    overflow-y: auto;
-    padding: 20px 16px;
-  }
-  .editor-modal-overlay.open {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .editor-modal {
-    width: 100%;
-    max-width: 650px;
-    background: var(--bg-1);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 24px;
-    margin: auto;
-    position: relative;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.9);
-  }
-  .form-group {
-    margin-bottom: 16px;
-  }
-  .form-group label {
-    display: block;
-    font-size: 0.86rem;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: var(--ink);
-  }
-  .form-control {
-    width: 100%;
-    padding: 11px 14px;
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    color: var(--ink);
-    font-family: inherit;
-    font-size: 0.9rem;
-    transition: border-color 0.2s;
-  }
-  .form-control:focus {
-    outline: none;
-    border-color: var(--gold-bright);
-  }
-  textarea.form-control {
-    min-height: 80px;
-    resize: vertical;
-  }
-  .form-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    margin-top: 24px;
-  }
-
-  .toast-container {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 300;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    pointer-events: none;
-  }
-  .toast {
-    pointer-events: auto;
-    background: var(--bg-2);
-    border: 1px solid var(--gold);
-    color: var(--ink);
-    padding: 12px 20px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: toastIn 0.3s ease forwards;
-  }
-  @keyframes toastIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
 </style>
 </head>
 <body>
@@ -963,7 +527,6 @@
     <nav class="navlinks">
       <a href="#about">من نحن</a><a href="#services">الخدمات</a><a href="#products">المنتجات</a><a href="#works">أعمالنا</a><a href="#contact">تواصل معنا</a>
     </nav>
-        <button class="admin-trigger-btn" id="open-admin-btn" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> لوحة التحكم</button>
     <a class="cta-mini" id="nav-whatsapp" href="#" target="_blank" rel="noopener">واتساب</a>
   </div>
 </header>
@@ -1018,18 +581,7 @@
       <span class="eyebrow">المنتجات</span>
       <h2>مستلزمات الطاقة الشمسية</h2>
       <p class="lead">تواصل معنا عبر واتساب للاستفسار عن أي منتج أو طلب عرض سعر.</p>
-            <div class="products-carousel-container">
-        <div class="products-carousel-wrap" id="products-carousel"></div>
-        <div class="carousel-controls">
-          <button class="carousel-arrow prev" id="carousel-prev" type="button" aria-label="السابق">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
-          </button>
-          <div class="carousel-dots" id="carousel-dots"></div>
-          <button class="carousel-arrow next" id="carousel-next" type="button" aria-label="التالي">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
-          </button>
-        </div>
-      </div>
+      <div class="grid-products" id="products-grid"></div>
     </div>
   </section>
 
@@ -1128,143 +680,52 @@
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
   const SUPABASE_URL = 'https://eftlniajfnvvzmxswgtj.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_gH!@#$1234567890abcdefghijklmnopqrstuvwxyz';
+  const SUPABASE_KEY = 'sb_publishable_6ypXec8dblC0ZHq7ERXUuw_TzXAZTnu';
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // Icons
   const ICONS = {
-    solar: '<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/><circle cx="12" cy="12" r="5"/>',
-    maintenance: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
-    wiring: '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/>',
-    inverter: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 12h10"/><path d="M12 7v10"/>',
-    pump: '<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>',
-    camera: '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
-    battery: '<rect x="2" y="6" width="17" height="12" rx="2"/><path d="M22 10v4"/><path d="M6 10v4"/><path d="M10 10v4"/><path d="M14 10v4"/>',
-    video: '<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>',
+    fault: '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/>',
+    panel: '<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 8h.01M8 12h.01M8 16h.01M13 8h4M13 12h4M13 16h4"/>',
+    solar: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+    maintain: '<path d="M4 17V7l6 4 6-4v10"/><path d="M20 7v10"/>',
+    battery: '<rect x="3" y="7" width="15" height="10" rx="1.5"/><path d="M18 10h2v4h-2"/><path d="M7 12h5"/>',
     default: '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/>'
   };
-
-  const svgIcon = (key) => `<div class="ic-wrap"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">${ICONS[key]||ICONS.default}</svg></div>`;
-  const waLink = (phone, msg) => `https://wa.me/${(phone||'').replace(/[^0-9]/g,'')}${msg?('?text='+encodeURIComponent(msg)):''}`;
-
-  /* =========================================
-     VIDEO HELPER UTILITIES
-     ========================================= */
-  function getVideoEmbedInfo(url) {
-    if (!url || typeof url !== 'string') return null;
-    url = url.trim();
-    if (!url) return null;
-
-    // YouTube
-    let ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
-    if (ytMatch && ytMatch[1]) {
-      return {
-        type: 'youtube',
-        id: ytMatch[1],
-        embedUrl: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&muted=1&playsinline=1`
-      };
-    }
-
-    // Vimeo
-    let vimeoMatch = url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/[^\/]*\/videos\/|album\/\d+\/video\/|video\/|)(\d+)/i);
-    if (vimeoMatch && vimeoMatch[1]) {
-      return {
-        type: 'vimeo',
-        id: vimeoMatch[1],
-        embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&muted=1`
-      };
-    }
-
-    // Direct MP4 / WebM / Generic Video URL
-    if (/\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url) || url.startsWith('http://') || url.startsWith('https://')) {
-      return {
-        type: 'direct',
-        url: url
-      };
-    }
-
-    return null;
-  }
-
-  function renderVideoPlayerHTML(videoUrl, options = {}) {
-    const info = getVideoEmbedInfo(videoUrl);
-    if (!info) return '';
-
-    const controls = options.controls !== false;
-    const autoplay = options.autoplay !== false;
-    const muted = options.muted !== false;
-
-    if (info.type === 'youtube' || info.type === 'vimeo') {
-      return `
-        <div class="responsive-video-wrap">
-          <iframe
-            src="${info.embedUrl}"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
-      `;
-    } else if (info.type === 'direct') {
-      return `
-        <div class="responsive-video-wrap">
-          <video
-            src="${info.url}"
-            ${controls ? 'controls' : ''}
-            ${autoplay ? 'autoplay' : ''}
-            ${muted ? 'muted' : ''}
-            loop
-            playsinline
-          ></video>
-        </div>
-      `;
-    }
-    return '';
-  }
+  const svgIcon = key => `<div class="ic-wrap"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">${ICONS[key]||ICONS.default}</svg></div>`;
+  const waLink = (phone,msg) => `https://wa.me/${(phone||'').replace(/[^0-9]/g,'')}${msg?('?text='+encodeURIComponent(msg)):''}`;
 
   /* =========================================
-     TOAST NOTIFICATIONS
+     PRODUCT PAGE
      ========================================= */
-  window.showToast = function(message, type = 'success') {
-    const container = document.getElementById('toast-container');
-    if (!container) return;
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `<span>${type === 'success' ? '✅' : '⚠️'}</span> <span>${message}</span>`;
-    container.appendChild(toast);
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(10px)';
-      toast.style.transition = 'all 0.3s ease';
-      setTimeout(() => toast.remove(), 300);
-    }, 3200);
-  };
 
-  /* =========================================
-     GLOBAL DATA STATE
-     ========================================= */
-  let productsData = [];
-  let galleryData = [];
-
-  /* =========================================
-     PRODUCT PAGE & DETAIL MODAL
-     ========================================= */
   let productPageOpen = false;
   let productHistoryAdded = false;
 
-  window.openProduct = function(p) {
+  window.openProduct = function(p){
+
     const detail = document.getElementById('product-detail');
     const imageWrap = document.getElementById('pd-img-wrap');
     const name = document.getElementById('pd-name');
     const desc = document.getElementById('pd-desc');
     const whatsapp = document.getElementById('pd-wa');
 
-    if (p.video_url && getVideoEmbedInfo(p.video_url)) {
-      imageWrap.innerHTML = renderVideoPlayerHTML(p.video_url, { controls: true, autoplay: true, muted: true });
-    } else if (p.image_url) {
-      imageWrap.innerHTML = `<img src="${p.image_url}" alt="${p.name}" loading="eager">`;
-    } else {
+    if(p.image_url){
       imageWrap.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">
+        <img
+          src="${p.image_url}"
+          alt="${p.name}"
+          loading="eager"
+        >
+      `;
+    }else{
+      imageWrap.innerHTML = `
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.1"
+          aria-hidden="true"
+        >
           <rect x="3" y="4" width="18" height="16" rx="1"/>
           <path d="M3 9h18M3 14h18M9 4v16M15 4v16"/>
         </svg>
@@ -1276,83 +737,90 @@
 
     whatsapp.href = waLink(
       window.__phone,
-      p.whatsapp_message || (`مرحباً، بدي أستفسر عن ${p.name}`)
+      p.whatsapp_message ||
+      ('مرحباً، بدي أستفسر عن ' + p.name)
     );
 
     productPageOpen = true;
+
     document.body.classList.add('product-view-open');
     detail.classList.add('open');
 
-    if (!productHistoryAdded) {
-      history.pushState({ productPage: true, productId: p.id || null }, '', '#product');
+    if(!productHistoryAdded){
+      history.pushState(
+        {
+          productPage:true,
+          productId:p.id || null
+        },
+        '',
+        '#product'
+      );
       productHistoryAdded = true;
     }
 
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({
+      top:0,
+      behavior:'instant'
+    });
   };
 
-  window.closeProduct = function(fromPopState = false) {
+  window.closeProduct = function(fromPopState = false){
+
     const detail = document.getElementById('product-detail');
+
     productPageOpen = false;
 
     document.body.classList.remove('product-view-open');
     detail.classList.remove('open');
 
-    if (!fromPopState && productHistoryAdded) {
+    if(!fromPopState && productHistoryAdded){
+
       productHistoryAdded = false;
-      if (location.hash === '#product') {
+
+      if(location.hash === '#product'){
         history.back();
       }
-    } else {
+
+    }else{
       productHistoryAdded = false;
     }
 
     setTimeout(() => {
-      if (!productPageOpen) {
+
+      if(!productPageOpen){
         document.getElementById('pd-img-wrap').innerHTML = '';
         document.getElementById('pd-name').textContent = '';
         document.getElementById('pd-desc').textContent = '';
       }
-    }, 350);
+
+    },350);
   };
 
-  window.addEventListener('popstate', function() {
-    if (productPageOpen) closeProduct(true);
+  window.addEventListener('popstate', function(){
+
+    if(productPageOpen){
+      closeProduct(true);
+    }
+
   });
+
 
   /* =========================================
      WORKS GALLERY LIGHTBOX
      ========================================= */
   let worksLightboxOpen = false;
 
-  window.openWorksLightbox = function(itemOrUrl, captionText, videoUrl) {
+  window.openWorksLightbox = function(imageUrl, captionText) {
     const overlay = document.getElementById('works-lightbox');
-    const imgWrap = overlay ? overlay.querySelector('.gw-img-wrap') : null;
+    const img = document.getElementById('gw-img');
     const caption = document.getElementById('gw-caption');
 
-    if (!overlay || !imgWrap || !caption) return;
+    if (!overlay || !img || !caption) return;
 
-    let imageUrl = '';
-    let itemVideo = '';
-    let title = '';
+    img.src = imageUrl || '';
+    img.alt = captionText || 'صورة العمل';
+    caption.textContent = captionText || '';
 
-    if (typeof itemOrUrl === 'object' && itemOrUrl !== null) {
-      imageUrl = itemOrUrl.image_url || '';
-      itemVideo = itemOrUrl.video_url || '';
-      title = itemOrUrl.caption || itemOrUrl.description || '';
-    } else {
-      imageUrl = itemOrUrl || '';
-      title = captionText || '';
-      itemVideo = videoUrl || '';
-    }
-
-    if (itemVideo && getVideoEmbedInfo(itemVideo)) {
-      imgWrap.innerHTML = renderVideoPlayerHTML(itemVideo, { controls: true, autoplay: true, muted: true });
-    } else {
-      imgWrap.innerHTML = `<img id="gw-img" src="${imageUrl}" alt="${title}">`;
-    }
-
-    caption.textContent = title;
     overlay.classList.add('open');
     worksLightboxOpen = true;
     document.body.style.overflow = 'hidden';
@@ -1368,488 +836,120 @@
 
     setTimeout(() => {
       if (!worksLightboxOpen) {
-        const imgWrap = overlay.querySelector('.gw-img-wrap');
+        const img = document.getElementById('gw-img');
         const caption = document.getElementById('gw-caption');
-        if (imgWrap) imgWrap.innerHTML = '<img id="gw-img" src="" alt="">';
+        if (img) img.src = '';
         if (caption) caption.textContent = '';
       }
     }, 300);
   };
 
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && worksLightboxOpen) closeWorksLightbox();
+    if (e.key === 'Escape' && worksLightboxOpen) {
+      closeWorksLightbox();
+    }
   });
 
   document.addEventListener('DOMContentLoaded', function() {
     const worksOverlay = document.getElementById('works-lightbox');
     if (worksOverlay) {
       worksOverlay.addEventListener('click', function(e) {
-        if (e.target === worksOverlay) closeWorksLightbox();
+        if (e.target === worksOverlay) {
+          closeWorksLightbox();
+        }
       });
     }
   });
 
-  /* =========================================
-     PRODUCTS CAROUSEL RENDERING
-     ========================================= */
-  function renderProductsCarousel() {
-    const carousel = document.getElementById('products-carousel');
-    const dotsContainer = document.getElementById('carousel-dots');
-    if (!carousel) return;
+  async function loadSite(){
+    const { data: settings } = await supabase.from('site_settings').select('*').eq('id',1).single();
+    if(settings){
+      document.title = settings.workshop_name + ' | كهرباء وطاقة شمسية في حمص';
+      const seoDescription = (settings.description || 'خدمات الكهرباء والطاقة الشمسية والتركيب والصيانة في حمص وضواحيها، مع توفير مستلزمات وأنظمة الطاقة الشمسية.') + ' | حمص وضواحيها';
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) metaDescription.setAttribute('content', seoDescription);
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', document.title);
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      if (ogDescription) ogDescription.setAttribute('content', seoDescription);
+      const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+      if (twitterTitle) twitterTitle.setAttribute('content', document.title);
+      const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+      if (twitterDescription) twitterDescription.setAttribute('content', seoDescription);
+      document.getElementById('brand-name').innerHTML = `${settings.workshop_name}<small>حمص وضواحيها</small>`;
+      document.getElementById('hero-title').textContent = settings.tagline || '';
+      document.getElementById('hero-desc').textContent = settings.description || '';
+      document.getElementById('about-text').textContent = settings.about_text || '';
+      document.getElementById('contact-phone-label').textContent = 'الهاتف وواتساب: ' + (settings.phone||'');
+      document.getElementById('contact-tel').href = 'tel:' + (settings.phone||'');
+      const wa = waLink(settings.whatsapp||settings.phone||'');
+      document.getElementById('contact-wa').href = wa;
+      document.getElementById('nav-whatsapp').href = wa;
+      document.getElementById('footer-copyright').textContent = `© ${new Date().getFullYear()} ${settings.workshop_name} — جميع الحقوق محفوظة`;
 
-    carousel.innerHTML = '';
-    if (dotsContainer) dotsContainer.innerHTML = '';
+      const whyGrid = document.getElementById('why-grid');
+      (settings.why_us||[]).forEach(text=>{
+        const div = document.createElement('div');
+        div.className='why-item';
+        div.innerHTML = `${svgIcon('default')}<h3>${text}</h3>`;
+        whyGrid.appendChild(div);
+      });
 
-    if (!productsData || !productsData.length) {
-      carousel.innerHTML = '<p style="color:var(--ink-muted);padding:20px;">لا توجد منتجات حالياً.</p>';
-      return;
+      window.__phone = settings.whatsapp||settings.phone||'';
     }
 
-    productsData.forEach((p, idx) => {
-      const card = document.createElement('div');
-      card.className = 'p-card-carousel';
-      card.style.cursor = 'pointer';
-
-      const hasVideo = p.video_url && getVideoEmbedInfo(p.video_url);
-      const videoBadgeHTML = hasVideo ? `<div class="video-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> فيديو</div>` : '';
-
-      let thumbContent = '';
-      if (hasVideo) {
-        thumbContent = renderVideoPlayerHTML(p.video_url, { controls: false, autoplay: false, muted: true });
-      } else if (p.image_url) {
-        thumbContent = `<img src="${p.image_url}" alt="${p.name}">`;
-      } else {
-        thumbContent = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M3 14h18M9 4v16M15 4v16"/></svg>`;
-      }
-
-      card.innerHTML = `
-        ${videoBadgeHTML}
-        <div class="p-thumb">${thumbContent}</div>
-        <div class="p-body">
-          ${p.category ? `<span style="font-size:0.75rem;color:var(--gold-bright);font-weight:700;">${p.category}</span>` : ''}
-          <h3>${p.name}</h3>
-          <p>${p.description || ''}</p>
-          <a class="btn-outline" target="_blank" rel="noopener" href="${waLink(window.__phone, p.whatsapp_message || ('مرحباً، بدي أستفسر عن ' + p.name))}">استفسر الآن</a>
-        </div>
-      `;
-
-      card.querySelector('.btn-outline').addEventListener('click', e => e.stopPropagation());
-      card.addEventListener('click', () => openProduct(p));
-      carousel.appendChild(card);
-
-      if (dotsContainer) {
-        const dot = document.createElement('div');
-        dot.className = `carousel-dot ${idx === 0 ? 'active' : ''}`;
-        dot.addEventListener('click', () => {
-          card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-        });
-        dotsContainer.appendChild(dot);
-      }
+    const { data: services } = await supabase.from('services').select('*').order('sort_order');
+    const sGrid = document.getElementById('services-grid');
+    (services||[]).forEach(s=>{
+      const div = document.createElement('div');
+      div.className='card';
+      div.innerHTML = `${svgIcon(s.icon)}<h3>${s.title}</h3><p>${s.description||''}</p>`;
+      sGrid.appendChild(div);
     });
 
-    setupCarouselControls();
-  }
+    const { data: products } = await supabase.from('products').select('*').order('category').order('sort_order');
+    const pGrid = document.getElementById('products-grid');
+    let lastCat = null;
+    (products||[]).forEach(p=>{
+      const cat = p.category || '';
+      if(cat && cat !== lastCat){
+        const h = document.createElement('h3');
+        h.style.cssText = 'grid-column:1/-1;color:var(--gold-bright);font-size:1rem;margin:18px 0 -4px;';
+        h.textContent = cat;
+        pGrid.appendChild(h);
+        lastCat = cat;
+      }
+      const div = document.createElement('div');
+      div.className='p-card';
+      div.style.cursor='pointer';
+      const thumb = p.image_url ? `<img src="${p.image_url}" alt="${p.name}">` : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M3 14h18M9 4v16M15 4v16"/></svg>`;
+      div.innerHTML = `<div class="p-thumb">${thumb}</div><div class="p-body"><h3>${p.name}</h3><p>${p.description||''}</p>
+        <a class="btn-outline" target="_blank" rel="noopener" href="${waLink(window.__phone,p.whatsapp_message||('مرحباً، بدي أستفسر عن '+p.name))}">استفسر الآن</a></div>`;
+      div.querySelector('.btn-outline').addEventListener('click', e=>e.stopPropagation());
+      div.addEventListener('click', ()=>openProduct(p));
+      pGrid.appendChild(div);
+    });
 
-  function setupCarouselControls() {
-    const carousel = document.getElementById('products-carousel');
-    const prevBtn = document.getElementById('carousel-prev');
-    const nextBtn = document.getElementById('carousel-next');
-    const dotsContainer = document.getElementById('carousel-dots');
-
-    if (!carousel) return;
-
-    if (prevBtn) {
-      prevBtn.onclick = () => {
-        carousel.scrollBy({ left: -300, behavior: 'smooth' });
-      };
-    }
-    if (nextBtn) {
-      nextBtn.onclick = () => {
-        carousel.scrollBy({ left: 300, behavior: 'smooth' });
-      };
-    }
-
-    carousel.onscroll = () => {
-      if (!dotsContainer) return;
-      const cards = carousel.querySelectorAll('.p-card-carousel');
-      const dots = dotsContainer.querySelectorAll('.carousel-dot');
-      const scrollLeft = Math.abs(carousel.scrollLeft);
-
-      cards.forEach((card, i) => {
-        if (card.offsetLeft <= scrollLeft + 150 && card.offsetLeft + card.offsetWidth > scrollLeft) {
-          dots.forEach(d => d.classList.remove('active'));
-          if (dots[i]) dots[i].classList.add('active');
-        }
-      });
-    };
-  }
-
-  /* =========================================
-     WORKS GALLERY RENDERING
-     ========================================= */
-  function renderGallery() {
+    const { data: gallery } = await supabase.from('gallery').select('*').order('sort_order');
     const wGrid = document.getElementById('works-grid');
-    if (!wGrid) return;
-    wGrid.innerHTML = '';
-
-    if (galleryData && galleryData.length) {
-      galleryData.forEach(g => {
+    if(gallery && gallery.length){
+      gallery.forEach(g=>{
         const div = document.createElement('div');
-        div.className = 'w-tile';
-        div.style.cursor = 'pointer';
-        div.style.position = 'relative';
-
-        const hasVideo = g.video_url && getVideoEmbedInfo(g.video_url);
-        const videoBadge = hasVideo ? `<div class="video-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> فيديو</div>` : '';
-
-        if (g.image_url) {
-          div.innerHTML = `${videoBadge}<img src="${g.image_url}" alt="${g.caption || ''}">`;
-        } else if (hasVideo) {
-          div.innerHTML = `${videoBadge}${renderVideoPlayerHTML(g.video_url, { controls: false, autoplay: false, muted: true })}`;
-        } else {
-          div.innerHTML = `${videoBadge}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 16 5-5 4 4 4-6 5 7"/></svg>${g.caption || ''}`;
-        }
-
-        div.addEventListener('click', () => openWorksLightbox(g));
+        div.className='w-tile';
+        div.style.cursor='pointer';
+        div.innerHTML = `<img src="${g.image_url}" alt="${g.caption||''}">`;
+        div.addEventListener('click', ()=>openWorksLightbox(g.image_url, g.caption||g.description||''));
         wGrid.appendChild(div);
       });
     } else {
       const div = document.createElement('div');
-      div.className = 'w-tile';
+      div.className='w-tile';
       div.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 16 5-5 4 4 4-6 5 7"/></svg>سيتم إضافة صور الأعمال قريباً`;
       wGrid.appendChild(div);
     }
+
+    document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
   }
-
-  /* =========================================
-     ADMIN PANEL MANAGEMENT LOGIC
-     ========================================= */
-  let activeAdminTab = 'products';
-  let editingItem = null;
-  let editingMode = 'add'; // 'add' or 'edit'
-
-  window.openAdminModal = function() {
-    const overlay = document.getElementById('admin-overlay');
-    if (overlay) {
-      overlay.classList.add('open');
-      renderAdminList();
-    }
-  };
-
-  window.closeAdminModal = function() {
-    const overlay = document.getElementById('admin-overlay');
-    if (overlay) overlay.classList.remove('open');
-  };
-
-  window.switchAdminTab = function(tab) {
-    activeAdminTab = tab;
-    document.getElementById('tab-btn-products').classList.toggle('active', tab === 'products');
-    document.getElementById('tab-btn-projects').classList.toggle('active', tab === 'projects');
-    document.getElementById('admin-add-item-btn').textContent = tab === 'products' ? '+ إضافة منتج جديد' : '+ إضافة عمل جديد';
-    renderAdminList();
-  };
-
-  function renderAdminList() {
-    const listContainer = document.getElementById('admin-list-container');
-    const searchVal = (document.getElementById('admin-search-input')?.value || '').toLowerCase();
-    if (!listContainer) return;
-
-    listContainer.innerHTML = '';
-    const items = activeAdminTab === 'products' ? productsData : galleryData;
-
-    const filtered = items.filter(item => {
-      const title = (item.name || item.caption || item.title || '').toLowerCase();
-      const desc = (item.description || '').toLowerCase();
-      const cat = (item.category || '').toLowerCase();
-      return title.includes(searchVal) || desc.includes(searchVal) || cat.includes(searchVal);
-    });
-
-    if (!filtered.length) {
-      listContainer.innerHTML = '<p style="color:var(--ink-muted);padding:20px;text-align:center;">لا توجد عناصر لعرضها.</p>';
-      return;
-    }
-
-    filtered.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'admin-item-card';
-
-      const title = item.name || item.caption || 'بدون عنوان';
-      const sub = item.category ? `الفئة: ${item.category}` : (item.description || '');
-      const thumb = item.image_url ? `<img src="${item.image_url}" alt="">` : (item.video_url ? '🎥' : '📷');
-      const hasVideo = item.video_url && getVideoEmbedInfo(item.video_url);
-
-      card.innerHTML = `
-        <div class="admin-item-info">
-          <div class="admin-item-thumb">
-            ${typeof thumb === 'string' && thumb.startsWith('<img') ? thumb : `<span style="font-size:1.4rem;">${thumb}</span>`}
-          </div>
-          <div class="admin-item-details">
-            <h4>${title} ${hasVideo ? '<span style="color:var(--gold-bright);font-size:0.75rem;">(🎥 فيديو)</span>' : ''}</h4>
-            <p>${sub}</p>
-          </div>
-        </div>
-        <div class="admin-item-actions">
-          <button class="btn-action-edit" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> تعديل</button>
-          <button class="btn-action-delete" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> حذف</button>
-        </div>
-      `;
-
-      card.querySelector('.btn-action-edit').addEventListener('click', () => openItemEditor('edit', item));
-      card.querySelector('.btn-action-delete').addEventListener('click', () => deleteAdminItem(item));
-      listContainer.appendChild(card);
-    });
-  }
-
-  /* =========================================
-     ITEM EDITOR MODAL & LIVE PREVIEW
-     ========================================= */
-  window.openItemEditor = function(mode = 'add', item = null) {
-    editingMode = mode;
-    editingItem = item;
-
-    const overlay = document.getElementById('editor-modal-overlay');
-    const titleEl = document.getElementById('editor-title');
-
-    const isProduct = activeAdminTab === 'products';
-
-    document.getElementById('editor-item-type').value = activeAdminTab;
-    document.getElementById('editor-item-id').value = item ? item.id : '';
-
-    titleEl.textContent = mode === 'edit'
-      ? (isProduct ? '✏️ تعديل المنتج' : '✏️ تعديل العمل / المشروع')
-      : (isProduct ? '➕ إضافة منتج جديد' : '➕ إضافة عمل جديد');
-
-    document.getElementById('label-name').textContent = isProduct ? 'اسم المنتج *' : 'عنوان العمل / الصورة *';
-    document.getElementById('group-category').style.display = isProduct ? 'block' : 'none';
-    document.getElementById('group-wa').style.display = isProduct ? 'block' : 'none';
-
-    document.getElementById('editor-name').value = item ? (item.name || item.caption || '') : '';
-    document.getElementById('editor-category').value = item ? (item.category || '') : '';
-    document.getElementById('editor-desc').value = item ? (item.description || '') : '';
-    document.getElementById('editor-image').value = item ? (item.image_url || '') : '';
-    document.getElementById('editor-video').value = item ? (item.video_url || '') : '';
-    document.getElementById('editor-wa').value = item ? (item.whatsapp_message || '') : '';
-    document.getElementById('editor-sort').value = item ? (item.sort_order || 0) : 0;
-
-    updateFormVideoPreview();
-    overlay.classList.add('open');
-  };
-
-  window.closeItemEditor = function() {
-    const overlay = document.getElementById('editor-modal-overlay');
-    if (overlay) overlay.classList.remove('open');
-  };
-
-  window.updateFormVideoPreview = function() {
-    const videoUrl = document.getElementById('editor-video')?.value;
-    const previewContainer = document.getElementById('form-video-preview');
-    if (!previewContainer) return;
-
-    if (videoUrl && getVideoEmbedInfo(videoUrl)) {
-      previewContainer.innerHTML = renderVideoPlayerHTML(videoUrl, { controls: true, autoplay: false, muted: true });
-    } else {
-      previewContainer.innerHTML = '<span style="color:var(--ink-muted);">أدخل رابط فيديو صحيح (YouTube, Vimeo, أو MP4) للمعاينة المباشرة</span>';
-    }
-  };
-
-  window.handleItemSave = async function(e) {
-    e.preventDefault();
-    const saveBtn = document.getElementById('editor-save-btn');
-    saveBtn.disabled = true;
-    saveBtn.textContent = 'جاري الحفظ...';
-
-    const itemType = document.getElementById('editor-item-type').value;
-    const itemId = document.getElementById('editor-item-id').value;
-    const nameVal = document.getElementById('editor-name').value.trim();
-    const categoryVal = document.getElementById('editor-category').value.trim();
-    const descVal = document.getElementById('editor-desc').value.trim();
-    const imageVal = document.getElementById('editor-image').value.trim();
-    const videoVal = document.getElementById('editor-video').value.trim();
-    const waVal = document.getElementById('editor-wa').value.trim();
-    const sortVal = parseInt(document.getElementById('editor-sort').value) || 0;
-
-    const tableName = itemType === 'products' ? 'products' : 'gallery';
-
-    let payload = {};
-    if (itemType === 'products') {
-      payload = {
-        name: nameVal,
-        category: categoryVal,
-        description: descVal,
-        image_url: imageVal,
-        video_url: videoVal,
-        whatsapp_message: waVal,
-        sort_order: sortVal
-      };
-    } else {
-      payload = {
-        caption: nameVal,
-        description: descVal,
-        image_url: imageVal,
-        video_url: videoVal,
-        sort_order: sortVal
-      };
-    }
-
-    try {
-      if (editingMode === 'edit' && itemId) {
-        const { data, error } = await supabase.from(tableName).update(payload).eq('id', itemId).select();
-        if (error) console.error('Supabase update error:', error);
-
-        const list = itemType === 'products' ? productsData : galleryData;
-        const index = list.findIndex(i => String(i.id) === String(itemId));
-        if (index !== -1) {
-          list[index] = { ...list[index], ...payload };
-        }
-        showToast(itemType === 'products' ? 'تم تعديل المنتج بنجاح!' : 'تم تعديل المشروع بنجاح!');
-      } else {
-        const { data, error } = await supabase.from(tableName).insert([payload]).select();
-        if (error) console.error('Supabase insert error:', error);
-
-        const newRecord = (data && data[0]) ? data[0] : { id: Date.now(), ...payload };
-        if (itemType === 'products') {
-          productsData.push(newRecord);
-        } else {
-          galleryData.push(newRecord);
-        }
-        showToast(itemType === 'products' ? 'تم إضافة المنتج بنجاح!' : 'تم إضافة المشروع بنجاح!');
-      }
-
-      renderProductsCarousel();
-      renderGallery();
-      renderAdminList();
-      closeItemEditor();
-    } catch (err) {
-      console.error('Save error:', err);
-      showToast('حدث خطأ أثناء الحفظ، يرجى المحاولة مرة أخرى', 'error');
-    } finally {
-      saveBtn.disabled = false;
-      saveBtn.textContent = 'حفظ التعديلات';
-    }
-  };
-
-  async function deleteAdminItem(item) {
-    if (!confirm(`هل أنت تأكد من حذف "${item.name || item.caption}"؟`)) return;
-
-    const itemType = activeAdminTab;
-    const tableName = itemType === 'products' ? 'products' : 'gallery';
-
-    try {
-      const { error } = await supabase.from(tableName).delete().eq('id', item.id);
-      if (error) console.error('Delete error:', error);
-
-      if (itemType === 'products') {
-        productsData = productsData.filter(i => String(i.id) !== String(item.id));
-      } else {
-        galleryData = galleryData.filter(i => String(i.id) !== String(item.id));
-      }
-
-      renderProductsCarousel();
-      renderGallery();
-      renderAdminList();
-      showToast('تم حذف العنصر بنجاح!');
-    } catch (err) {
-      console.error('Delete failed:', err);
-      showToast('تعذر حذف العنصر', 'error');
-    }
-  }
-
-  /* =========================================
-     SITE INITIALIZATION & DATA LOADING
-     ========================================= */
-  async function loadSite() {
-    try {
-      const { data: settings } = await supabase.from('site_settings').select('*').eq('id', 1).single();
-      if (settings) {
-        document.title = settings.workshop_name + ' | كهرباء وطاقة شمسية في حمص';
-        const seoDescription = (settings.description || 'خدمات الكهرباء والطاقة الشمسية والتركيب والصيانة في حمص وضواحيها.') + ' | حمص وضواحيها';
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', seoDescription);
-
-        document.getElementById('brand-name').innerHTML = `${settings.workshop_name}<small>حمص وضواحيها</small>`;
-        document.getElementById('hero-title').textContent = settings.tagline || '';
-        document.getElementById('hero-desc').textContent = settings.description || '';
-        document.getElementById('about-text').textContent = settings.about_text || '';
-        document.getElementById('contact-phone-label').textContent = 'الهاتف وواتساب: ' + (settings.phone || '');
-        document.getElementById('contact-tel').href = 'tel:' + (settings.phone || '');
-        const wa = waLink(settings.whatsapp || settings.phone || '');
-        document.getElementById('contact-wa').href = wa;
-        document.getElementById('nav-whatsapp').href = wa;
-        document.getElementById('footer-copyright').textContent = `© ${new Date().getFullYear()} ${settings.workshop_name} — جميع الحقوق محفوظة`;
-
-        const whyGrid = document.getElementById('why-grid');
-        if (whyGrid) {
-          whyGrid.innerHTML = '';
-          (settings.why_us || []).forEach(text => {
-            const div = document.createElement('div');
-            div.className = 'why-item';
-            div.innerHTML = `${svgIcon('default')}<h3>${text}</h3>`;
-            whyGrid.appendChild(div);
-          });
-        }
-
-        window.__phone = settings.whatsapp || settings.phone || '';
-      }
-    } catch (e) {
-      console.warn('Settings load error:', e);
-    }
-
-    try {
-      const { data: services } = await supabase.from('services').select('*').order('sort_order');
-      const sGrid = document.getElementById('services-grid');
-      if (sGrid) {
-        sGrid.innerHTML = '';
-        (services || []).forEach(s => {
-          const div = document.createElement('div');
-          div.className = 'card';
-          div.innerHTML = `${svgIcon(s.icon)}<h3>${s.title}</h3><p>${s.description || ''}</p>`;
-          sGrid.appendChild(div);
-        });
-      }
-    } catch (e) {
-      console.warn('Services load error:', e);
-    }
-
-    try {
-      const { data: products } = await supabase.from('products').select('*').order('category').order('sort_order');
-      productsData = products || [];
-      renderProductsCarousel();
-    } catch (e) {
-      console.warn('Products load error:', e);
-      productsData = [];
-      renderProductsCarousel();
-    }
-
-    try {
-      const { data: gallery } = await supabase.from('gallery').select('*').order('sort_order');
-      galleryData = gallery || [];
-      renderGallery();
-    } catch (e) {
-      console.warn('Gallery load error:', e);
-      galleryData = [];
-      renderGallery();
-    }
-
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-  }
-
-  // Bind Event Listeners
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('open-admin-btn')?.addEventListener('click', openAdminModal);
-    document.getElementById('close-admin-btn')?.addEventListener('click', closeAdminModal);
-
-    document.getElementById('tab-btn-products')?.addEventListener('click', () => switchAdminTab('products'));
-    document.getElementById('tab-btn-projects')?.addEventListener('click', () => switchAdminTab('projects'));
-
-    document.getElementById('admin-search-input')?.addEventListener('input', renderAdminList);
-    document.getElementById('admin-add-item-btn')?.addEventListener('click', () => openItemEditor('add'));
-
-    document.getElementById('close-editor-btn')?.addEventListener('click', closeItemEditor);
-    document.getElementById('cancel-editor-btn')?.addEventListener('click', closeItemEditor);
-    document.getElementById('editor-form')?.addEventListener('submit', handleItemSave);
-    document.getElementById('editor-video')?.addEventListener('input', updateFormVideoPreview);
-  });
-
   loadSite();
 </script>
 
@@ -1865,89 +965,6 @@
     <div id="gw-caption" class="gw-caption"></div>
   </div>
 </div>
-
-
-<!-- Admin Panel Modal -->
-<div id="admin-overlay" class="admin-overlay" role="dialog" aria-modal="true" aria-label="لوحة التحكم">
-  <div class="admin-container">
-    <div class="admin-header">
-      <h2>🛠️ لوحة تحكم ورشة الهيثم</h2>
-      <button class="pd-close" type="button" id="close-admin-btn" style="margin:0;">✕ إغلاق</button>
-    </div>
-    <div class="admin-tabs">
-      <button class="admin-tab-btn active" id="tab-btn-products" type="button">📦 إدارة المنتجات</button>
-      <button class="admin-tab-btn" id="tab-btn-projects" type="button">🖼️ إدارة أعمالنا والمشاريع</button>
-    </div>
-    <div class="admin-toolbar">
-      <input type="text" id="admin-search-input" class="admin-search" placeholder="بحث في العناصر...">
-      <button class="admin-add-btn" id="admin-add-item-btn" type="button">+ إضافة منتج جديد</button>
-    </div>
-    <div id="admin-list-container" class="admin-list"></div>
-  </div>
-</div>
-
-<!-- Item Editor Modal (Create / Edit) -->
-<div id="editor-modal-overlay" class="editor-modal-overlay" role="dialog" aria-modal="true" aria-label="تعديل العنصر">
-  <div class="editor-modal">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;border-bottom:1px solid var(--line);padding-bottom:12px;">
-      <h3 id="editor-title" style="margin:0;font-size:1.2rem;color:var(--gold-bright);">تعديل العنصر</h3>
-      <button class="pd-close" type="button" id="close-editor-btn" style="margin:0;padding:6px 12px;min-height:auto;">✕</button>
-    </div>
-    <form id="editor-form">
-      <input type="hidden" id="editor-item-id">
-      <input type="hidden" id="editor-item-type">
-
-      <div class="form-group">
-        <label id="label-name" for="editor-name">اسم المنتج / العنوان *</label>
-        <input type="text" id="editor-name" class="form-control" required placeholder="أدخل الاسم">
-      </div>
-
-      <div class="form-group" id="group-category">
-        <label for="editor-category">الفئة / التصنيف</label>
-        <input type="text" id="editor-category" class="form-control" placeholder="مثال: إنفرترات، بطاريات، ألواح">
-      </div>
-
-      <div class="form-group">
-        <label for="editor-desc">الوصف</label>
-        <textarea id="editor-desc" class="form-control" placeholder="أدخل تفاصيل الوصف..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="editor-image">رابط الصورة (Image URL)</label>
-        <input type="url" id="editor-image" class="form-control" placeholder="https://example.com/image.jpg">
-      </div>
-
-      <div class="form-group">
-        <label for="editor-video">رابط الفيديو (Video URL - YouTube, Vimeo, or MP4)</label>
-        <input type="url" id="editor-video" class="form-control" placeholder="https://www.youtube.com/watch?v=... أو https://example.com/video.mp4">
-      </div>
-
-      <div class="form-group">
-        <label>معاينة الفيديو المباشرة:</label>
-        <div id="form-video-preview" style="background:var(--bg-2);border:1px dashed var(--line);border-radius:12px;padding:12px;text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center;color:var(--ink-muted);font-size:0.85rem;">
-          أدخل رابط فيديو صحيح للمعاينة المباشرة
-        </div>
-      </div>
-
-      <div class="form-group" id="group-wa">
-        <label for="editor-wa">رسالة واتساب المخصصة (اختياري)</label>
-        <input type="text" id="editor-wa" class="form-control" placeholder="مرحباً، بدي أستفسر عن هذا المنتج">
-      </div>
-
-      <div class="form-group">
-        <label for="editor-sort">ترتيب العرض (Sort Order)</label>
-        <input type="number" id="editor-sort" class="form-control" value="0">
-      </div>
-
-      <div class="form-actions">
-        <button type="button" class="btn-ghost" id="cancel-editor-btn" style="padding:9px 20px;">إلغاء</button>
-        <button type="submit" id="editor-save-btn" class="btn-primary" style="padding:9px 26px;">حفظ التعديلات</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div id="toast-container" class="toast-container"></div>
 
 </body>
 </html>
