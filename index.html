@@ -939,442 +939,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-
-  /* =========================================
-     VIDEO PLAYER & BADGES
-     ========================================= */
-  .responsive-video-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: #000;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--line);
-  }
-  .responsive-video-wrap iframe,
-  .responsive-video-wrap video {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    object-fit: contain;
-  }
-  .video-badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(10, 9, 8, 0.85);
-    color: var(--gold-bright);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 3px 10px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    z-index: 3;
-    backdrop-filter: blur(6px);
-  }
-
-  /* =========================================
-     PRODUCTS HORIZONTAL CAROUSEL
-     ========================================= */
-  .products-carousel-container {
-    position: relative;
-    margin-top: 28px;
-  }
-  .products-carousel-wrap {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    padding: 12px 4px 24px 4px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .products-carousel-wrap::-webkit-scrollbar {
-    display: none;
-  }
-  .p-card-carousel {
-    flex: 0 0 clamp(270px, 78vw, 320px);
-    scroll-snap-align: start;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
-    display: flex;
-    flex-direction: column;
-    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    position: relative;
-  }
-  .p-card-carousel:hover {
-    transform: translateY(-6px);
-    border-color: rgba(201,162,39,.5);
-    box-shadow: 0 20px 40px -20px rgba(201,162,39,.6);
-  }
-  .carousel-controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 18px;
-    padding: 0 8px;
-  }
-  .carousel-arrow {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--bg-1);
-    border: 1px solid var(--line);
-    color: var(--gold-bright);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all .2s ease;
-  }
-  .carousel-arrow:hover:not(:disabled) {
-    background: var(--gold-bright);
-    color: var(--bg-0);
-    border-color: var(--gold-bright);
-  }
-  .carousel-arrow:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-  }
-  .carousel-dots {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: center;
-  }
-  .carousel-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(201, 162, 39, 0.25);
-    transition: all .25s ease;
-    cursor: pointer;
-  }
-  .carousel-dot.active {
-    width: 22px;
-    border-radius: 999px;
-    background: var(--gold-bright);
-  }
-
-  /* =========================================
-     ADMIN PANEL & EDITOR MODAL
-     ========================================= */
-  .admin-trigger-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 999px;
-    background: rgba(201, 162, 39, 0.12);
-    border: 1px solid var(--line);
-    color: var(--gold-bright);
-    font-size: 0.85rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: 'Almarai', sans-serif;
-  }
-  .admin-trigger-btn:hover {
-    background: var(--gold-bright);
-    color: var(--bg-0);
-  }
-
-  .admin-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    background: rgba(10, 9, 8, 0.94);
-    backdrop-filter: blur(14px);
-    overflow-y: auto;
-    padding: 24px 16px;
-  }
-  .admin-overlay.open {
-    display: block;
-  }
-  .admin-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    background: var(--bg-1);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-  }
-  .admin-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .admin-header h2 {
-    font-size: 1.4rem;
-    margin: 0;
-    color: var(--gold-bright);
-  }
-  .admin-tabs {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 12px;
-  }
-  .admin-tab-btn {
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--ink-muted);
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
-  }
-  .admin-tab-btn.active {
-    background: var(--gold-dim);
-    color: var(--gold-bright);
-    border-color: var(--line);
-  }
-  .admin-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .admin-search {
-    flex: 1;
-    min-width: 200px;
-    padding: 10px 16px;
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    color: var(--ink);
-    font-family: inherit;
-    font-size: 0.9rem;
-  }
-  .admin-add-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 20px;
-    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
-    color: var(--bg-0);
-    border: none;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.88rem;
-    cursor: pointer;
-    font-family: inherit;
-    transition: transform 0.2s;
-  }
-  .admin-add-btn:hover {
-    transform: translateY(-2px);
-  }
-
-  .admin-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .admin-item-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .admin-item-info {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex: 1;
-    min-width: 240px;
-  }
-  .admin-item-thumb {
-    width: 56px;
-    height: 56px;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    background: var(--bg-0);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--line);
-  }
-  .admin-item-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .admin-item-details h4 {
-    margin: 0 0 4px;
-    font-size: 0.98rem;
-    font-weight: 700;
-  }
-  .admin-item-details p {
-    margin: 0;
-    font-size: 0.82rem;
-    color: var(--ink-muted);
-  }
-  .admin-item-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .btn-action-edit {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border-radius: 8px;
-    background: rgba(242, 201, 76, 0.15);
-    color: var(--gold-bright);
-    border: 1px solid rgba(201, 162, 39, 0.3);
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
-  }
-  .btn-action-edit:hover {
-    background: var(--gold-bright);
-    color: var(--bg-0);
-  }
-  .btn-action-delete {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border-radius: 8px;
-    background: rgba(235, 87, 87, 0.12);
-    color: #eb5757;
-    border: 1px solid rgba(235, 87, 87, 0.3);
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
-  }
-  .btn-action-delete:hover {
-    background: #eb5757;
-    color: #fff;
-  }
-
-  .editor-modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 250;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(10px);
-    overflow-y: auto;
-    padding: 20px 16px;
-  }
-  .editor-modal-overlay.open {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .editor-modal {
-    width: 100%;
-    max-width: 650px;
-    background: var(--bg-1);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 24px;
-    margin: auto;
-    position: relative;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.9);
-  }
-  .form-group {
-    margin-bottom: 16px;
-  }
-  .form-group label {
-    display: block;
-    font-size: 0.86rem;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: var(--ink);
-  }
-  .form-control {
-    width: 100%;
-    padding: 11px 14px;
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    color: var(--ink);
-    font-family: inherit;
-    font-size: 0.9rem;
-    transition: border-color 0.2s;
-  }
-  .form-control:focus {
-    outline: none;
-    border-color: var(--gold-bright);
-  }
-  textarea.form-control {
-    min-height: 80px;
-    resize: vertical;
-  }
-  .form-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    margin-top: 24px;
-  }
-
-  .toast-container {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 300;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    pointer-events: none;
-  }
-  .toast {
-    pointer-events: auto;
-    background: var(--bg-2);
-    border: 1px solid var(--gold);
-    color: var(--ink);
-    padding: 12px 20px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: toastIn 0.3s ease forwards;
-  }
-  @keyframes toastIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
 </style>
 </head>
 <body>
@@ -1399,7 +963,6 @@
     <nav class="navlinks">
       <a href="#about">من نحن</a><a href="#services">الخدمات</a><a href="#products">المنتجات</a><a href="#works">أعمالنا</a><a href="#contact">تواصل معنا</a>
     </nav>
-        <button class="admin-trigger-btn" id="open-admin-btn" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> لوحة التحكم</button>
     <a class="cta-mini" id="nav-whatsapp" href="#" target="_blank" rel="noopener">واتساب</a>
   </div>
 </header>
@@ -1564,7 +1127,7 @@
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
   const SUPABASE_URL = 'https://eftlniajfnvvzmxswgtj.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_6ypXec8dblC0ZHq7ERXUuw_TzXAZTnu';
+  const SUPABASE_KEY = 'sb_publishable_gH!@#$1234567890abcdefghijklmnopqrstuvwxyz';
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   // Icons
@@ -1676,10 +1239,89 @@
   };
 
   /* =========================================
-     GLOBAL DATA STATE
+     GLOBAL DATA STATE & SEED FALLBACKS
      ========================================= */
-  let productsData = [];
-  let galleryData = [];
+  const DEFAULT_PRODUCTS = [
+    {
+      id: 'p1',
+      name: 'أنفرتر غرووات هجين 5KW',
+      category: 'إنفرترات',
+      description: 'أنفرتر طاقة شمسية هجين قدرة 5000 واط مع شاحن MPPT مدمج لكفاءة عالية وتشغيل آمن للمنازل والمحلات.',
+      image_url: 'https://images.unsplash.com/photo-1613665813446-82a78c468a1d?auto=format&fit=crop&w=800&q=80',
+      whatsapp_message: 'مرحباً، أود الاستفسار عن أنفرتر غرووات هجين 5KW',
+      sort_order: 1
+    },
+    {
+      id: 'p2',
+      name: 'بطارية ليثيوم LiFePO4 100Ah 48V',
+      category: 'بطاريات',
+      description: 'بطارية ليثيوم عمر افتراضي يتجاوز 6000 دورة شحن، نظام حماية BMS ذكي وشحن سريع.',
+      image_url: 'https://images.unsplash.com/photo-1558441719-67710c950280?auto=format&fit=crop&w=800&q=80',
+      whatsapp_message: 'مرحباً، أود الاستفسار عن بطارية الليثيوم 100Ah 48V',
+      sort_order: 2
+    },
+    {
+      id: 'p3',
+      name: 'ألواح طاقة شمسية 550W جينكو Mono',
+      category: 'ألواح شمسية',
+      description: 'ألواح طاقة شمسية أحادية الكريستال تكنولوجيا Half-Cut بكفاءة عالية وأداء ممتاز في درجات الحرارة العالية.',
+      image_url: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80',
+      whatsapp_message: 'مرحباً، أود الاستفسار عن ألواح الطاقة الشمسية 550W',
+      sort_order: 3
+    },
+    {
+      id: 'p4',
+      name: 'منظم شحن MPPT 60A ذكي',
+      category: 'منظمات شحن',
+      description: 'منظم شحن شمسية بكفاءة تتبع 99% مع شاشة LCD لعرض كافة قراءات الفولتية والتيار والتفريغ.',
+      image_url: 'https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?auto=format&fit=crop&w=800&q=80',
+      whatsapp_message: 'مرحباً، أود الاستفسار عن منظم الشحن MPPT 60A',
+      sort_order: 4
+    },
+    {
+      id: 'p5',
+      name: 'أنفرتر مضخة طاقة شمسية 7.5HP',
+      category: 'مضخات طاقة شمسية',
+      description: 'أنفرتر متخصص لتشغيل مضخات الآبار والمياه الزراعية مباشرة من ألواح الطاقة الشمسية بدون بطاريات.',
+      image_url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
+      whatsapp_message: 'مرحباً، أود الاستفسار عن أنفرتر مضخة الطاقة الشمسية',
+      sort_order: 5
+    }
+  ];
+
+  const DEFAULT_GALLERY = [
+    {
+      id: 'g1',
+      caption: 'تركيب منظومة طاقة شمسية منزلية متكاملة في حمص',
+      description: 'تركيب 8 ألواح طاقة شمسية مع أنفرتر هجين وبطارية ليثيوم لتغذية المنزل بالكامل.',
+      image_url: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=800&q=80',
+      sort_order: 1
+    },
+    {
+      id: 'g2',
+      caption: 'تجميع وتمديد لوحة تحكم وتوزيع كهربائية رئيسية',
+      description: 'تنظيم وتجميع كابلات وقواطع الحماية مع مفاتيح التحويل الآلي والقواطع الذكية.',
+      image_url: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
+      sort_order: 2
+    },
+    {
+      id: 'g3',
+      caption: 'مشروع تشغيل مضخة مياه زراعية على الطاقة الشمسية',
+      description: 'تركيب مصفوفة ألواح شمسية لتشغيل مضخة غاطسة في ريف حمص للري الزراعي.',
+      image_url: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=800&q=80',
+      sort_order: 3
+    },
+    {
+      id: 'g4',
+      caption: 'تركيب وبناء بنك بطاريات جل ومدخرات شمسية',
+      description: 'توصيل واختبار بطاريات جل للطاقة الشمسية مع إعداد نظام التهوية والحماية.',
+      image_url: 'https://images.unsplash.com/photo-1558441719-67710c950280?auto=format&fit=crop&w=800&q=80',
+      sort_order: 4
+    }
+  ];
+
+  let productsData = DEFAULT_PRODUCTS;
+  let galleryData = DEFAULT_GALLERY;
 
   /* =========================================
      PRODUCT PAGE & DETAIL MODAL
@@ -2113,48 +1755,36 @@
         category: categoryVal,
         description: descVal,
         image_url: imageVal,
+        video_url: videoVal,
         whatsapp_message: waVal,
         sort_order: sortVal
       };
-      if (videoVal) payload.video_url = videoVal;
     } else {
       payload = {
         caption: nameVal,
         description: descVal,
         image_url: imageVal,
+        video_url: videoVal,
         sort_order: sortVal
       };
-      if (videoVal) payload.video_url = videoVal;
     }
 
     try {
       if (editingMode === 'edit' && itemId) {
-        let { data, error } = await supabase.from(tableName).update(payload).eq('id', itemId).select();
-        if (error && error.code === 'PGRST204' && 'video_url' in payload) {
-          delete payload.video_url;
-          const retry = await supabase.from(tableName).update(payload).eq('id', itemId).select();
-          data = retry.data;
-          error = retry.error;
-        }
+        const { data, error } = await supabase.from(tableName).update(payload).eq('id', itemId).select();
         if (error) console.error('Supabase update error:', error);
 
         const list = itemType === 'products' ? productsData : galleryData;
         const index = list.findIndex(i => String(i.id) === String(itemId));
         if (index !== -1) {
-          list[index] = { ...list[index], ...payload, video_url: videoVal };
+          list[index] = { ...list[index], ...payload };
         }
         showToast(itemType === 'products' ? 'تم تعديل المنتج بنجاح!' : 'تم تعديل المشروع بنجاح!');
       } else {
-        let { data, error } = await supabase.from(tableName).insert([payload]).select();
-        if (error && error.code === 'PGRST204' && 'video_url' in payload) {
-          delete payload.video_url;
-          const retry = await supabase.from(tableName).insert([payload]).select();
-          data = retry.data;
-          error = retry.error;
-        }
+        const { data, error } = await supabase.from(tableName).insert([payload]).select();
         if (error) console.error('Supabase insert error:', error);
 
-        const newRecord = (data && data[0]) ? data[0] : { id: String(Date.now()), ...payload, video_url: videoVal };
+        const newRecord = (data && data[0]) ? data[0] : { id: Date.now(), ...payload };
         if (itemType === 'products') {
           productsData.push(newRecord);
         } else {
@@ -2259,8 +1889,8 @@
     }
 
     try {
-      const { data: products, error: pError } = await supabase.from('products').select('*').order('category').order('sort_order');
-      if (pError) console.warn('Products DB fetch error:', pError);
+      const res = await supabase.from('products').select('*').order('category').order('sort_order');
+      const products = Array.isArray(res) ? res : (res && Array.isArray(res.data) ? res.data : null);
       if (products && products.length > 0) {
         productsData = products;
       } else {
@@ -2268,14 +1898,14 @@
       }
       renderProductsCarousel();
     } catch (e) {
-      console.warn('Products load exception:', e);
+      console.warn('Products load error:', e);
       productsData = DEFAULT_PRODUCTS;
       renderProductsCarousel();
     }
 
     try {
-      const { data: gallery, error: gError } = await supabase.from('gallery').select('*').order('sort_order');
-      if (gError) console.warn('Gallery DB fetch error:', gError);
+      const res = await supabase.from('gallery').select('*').order('sort_order');
+      const gallery = Array.isArray(res) ? res : (res && Array.isArray(res.data) ? res.data : null);
       if (gallery && gallery.length > 0) {
         galleryData = gallery;
       } else {
@@ -2283,19 +1913,28 @@
       }
       renderGallery();
     } catch (e) {
-      console.warn('Gallery load exception:', e);
+      console.warn('Gallery load error:', e);
       galleryData = DEFAULT_GALLERY;
       renderGallery();
     }
 
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-    renderAdminList();
+  }
+
+  function checkDirectAdminRoute() {
+    const path = window.location.pathname;
+    const hash = window.location.hash;
+    if (hash === '#admin' || hash === '#dashboard' || path.endsWith('/admin') || path.endsWith('/dashboard')) {
+      openAdminModal();
+    }
   }
 
   // Bind Event Listeners
   document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('open-admin-btn')?.addEventListener('click', openAdminModal);
     document.getElementById('close-admin-btn')?.addEventListener('click', closeAdminModal);
+    checkDirectAdminRoute();
+    window.addEventListener('hashchange', checkDirectAdminRoute);
 
     document.getElementById('tab-btn-products')?.addEventListener('click', () => switchAdminTab('products'));
     document.getElementById('tab-btn-projects')?.addEventListener('click', () => switchAdminTab('projects'));
