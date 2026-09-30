@@ -14,14 +14,24 @@
       font-family: 'Almarai', system-ui, sans-serif;
       color: #fff;
       background: #050505;
+      --bg-0: #0a0908;
+      --bg-1: #121110;
+      --bg-2: #181614;
+      --gold: #c9a227;
+      --gold-bright: #f2c94c;
+      --gold-dim: rgba(201, 162, 39, 0.15);
+      --ink: #f4efe4;
+      --ink-muted: #a39a89;
+      --line: rgba(201, 162, 39, 0.2);
+      --radius: 14px;
+      --danger: #ef4444;
+      --success: #10b981;
     }
 
-    html, body { width: 100%; height: 100%; overflow: hidden; }
+    body { background: #050505; color: var(--ink); }
+    button, input, textarea { font: inherit; }
 
-    body { background: #050505; }
-
-    button, input { font: inherit; }
-
+    /* ================= شاشة الدخول (اللمبة) ================= */
     .room {
       position: relative;
       width: 100vw;
@@ -32,7 +42,6 @@
       background: #050505;
       transition: background-color .8s ease;
     }
-
     .room.on { background: #111; }
 
     .room-light {
@@ -49,30 +58,17 @@
       background: radial-gradient(circle, rgba(255,220,100,.15) 0%, rgba(255,214,0,.05) 30%, transparent 70%);
       transition: opacity .8s ease, transform .8s ease;
     }
-
     .room.on .room-light { opacity: 1; transform: scale(1.5); }
 
-    .fireflies {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 15;
-      overflow: hidden;
-    }
-
+    .fireflies { position: fixed; inset: 0; pointer-events: none; z-index: 15; overflow: hidden; }
     .firefly {
-      position: absolute;
-      border-radius: 50%;
-      background: #FFEA00;
+      position: absolute; border-radius: 50%; background: #FFEA00;
       box-shadow: 0 0 10px 3px rgba(255,234,0,.9), 0 0 20px rgba(255,179,0,.6);
       animation: fireflyMove var(--duration) ease-in-out var(--delay) infinite alternate;
     }
-
     @keyframes fireflyMove {
       0% { transform: translate(var(--x1), var(--y1)); opacity: .45; }
-      25% { transform: translate(var(--x2), var(--y2)); opacity: 1; }
-      50% { transform: translate(var(--x3), var(--y3)); opacity: .65; }
-      75% { transform: translate(var(--x4), var(--y4)); opacity: 1; }
+      50% { transform: translate(var(--x3), var(--y3)); opacity: .7; }
       100% { transform: translate(var(--x5), var(--y5)); opacity: .5; }
     }
 
@@ -85,7 +81,6 @@
       align-items: center;
       z-index: 5;
     }
-
     .lamp-container {
       position: relative;
       display: flex;
@@ -95,342 +90,125 @@
       transform: scale(1.1);
       -webkit-tap-highlight-color: transparent;
     }
-
     .lamp-head {
-      width: 140px;
-      height: 50px;
-      background: #151515;
+      width: 140px; height: 50px; background: #151515;
       border-radius: 140px 140px 4px 4px;
       box-shadow: inset 0 2px 5px rgba(255,255,255,.1), 0 10px 20px rgba(0,0,0,.9);
-      position: relative;
-      z-index: 6;
-      transition: box-shadow .4s ease;
-      border-bottom: 2px solid #050505;
+      position: relative; z-index: 6; border-bottom: 2px solid #050505;
     }
-
-    .room.on .lamp-head {
-      box-shadow: inset 0 -3px 10px rgba(255,220,150,.4), inset 0 2px 5px rgba(255,255,255,.1);
-    }
+    .room.on .lamp-head { box-shadow: inset 0 -3px 10px rgba(255,220,150,.4), inset 0 2px 5px rgba(255,255,255,.1); }
 
     .lamp-glow {
-      position: absolute;
-      top: 40px;
-      width: 90px;
-      height: 20px;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 0 0 40px 20px rgba(255,230,150,.9), 0 0 80px 40px rgba(255,200,100,.6);
-      opacity: 0;
-      transition: opacity .4s ease-in-out;
-      z-index: 5;
-      pointer-events: none;
+      position: absolute; top: 40px; width: 90px; height: 20px; background: #fff;
+      border-radius: 50%; box-shadow: 0 0 40px 20px rgba(255,230,150,.9), 0 0 80px 40px rgba(255,200,100,.6);
+      opacity: 0; transition: opacity .4s ease-in-out; z-index: 5; pointer-events: none;
     }
-
     .room.on .lamp-glow { opacity: 1; }
 
     .light-beam {
-      position: absolute;
-      top: 45px;
-      width: 500px;
-      height: 350px;
+      position: absolute; top: 45px; width: 500px; height: 350px;
       clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
       background: linear-gradient(to bottom, rgba(255,230,140,.8) 0%, rgba(255,200,80,.2) 60%, transparent 100%);
-      opacity: 0;
-      transition: opacity .4s ease-in-out;
-      z-index: 3;
-      pointer-events: none;
-      filter: blur(8px);
+      opacity: 0; transition: opacity .4s ease-in-out; z-index: 3; pointer-events: none; filter: blur(8px);
     }
-
     .room.on .light-beam { opacity: 1; }
 
     .lamp-stem {
-      width: 6px;
-      height: 290px;
+      width: 6px; height: 290px;
       background: linear-gradient(to right, #050505 0%, #2a2a2a 50%, #050505 100%);
-      position: relative;
-      z-index: 4;
-      transition: background .4s ease, box-shadow .4s ease;
+      position: relative; z-index: 4;
     }
-
     .room.on .lamp-stem {
       background: linear-gradient(to right, #050505 0%, #2a2010 50%, #050505 100%);
       box-shadow: 0 0 10px rgba(255,200,100,.15);
     }
 
     .lamp-base {
-      width: 100px;
-      height: 16px;
-      background: #151515;
-      border-radius: 30px 30px 4px 4px;
+      width: 100px; height: 16px; background: #151515; border-radius: 30px 30px 4px 4px;
       box-shadow: inset 0 2px 5px rgba(255,255,255,.1), 0 10px 20px rgba(0,0,0,.9);
-      position: relative;
-      z-index: 5;
-      transition: box-shadow .4s ease;
-      border-bottom: 2px solid #050505;
-    }
-
-    .room.on .lamp-base {
-      box-shadow: inset 0 2px 6px rgba(255,220,150,.3), 0 10px 20px rgba(0,0,0,.9);
+      position: relative; z-index: 5; border-bottom: 2px solid #050505;
     }
 
     .desk-surface {
-      position: absolute;
-      bottom: -40px;
-      width: 550px;
-      height: 100px;
+      position: absolute; bottom: -40px; width: 550px; height: 100px;
       background: radial-gradient(ellipse at center, rgba(255,220,120,.25) 0%, rgba(255,180,50,.05) 50%, transparent 70%);
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity .4s ease-in-out;
-      z-index: 1;
-      pointer-events: none;
+      border-radius: 50%; opacity: 0; transition: opacity .4s ease-in-out; z-index: 1; pointer-events: none;
     }
-
     .room.on .desk-surface { opacity: 1; }
 
     .string-svg {
-      position: absolute;
-      top: 45px;
-      left: calc(50% + 55px);
-      width: 2px;
-      height: 2px;
-      overflow: visible;
-      z-index: 5;
-      pointer-events: none;
+      position: absolute; top: 45px; left: calc(50% + 55px);
+      width: 2px; height: 2px; overflow: visible; z-index: 5; pointer-events: none;
     }
+    .string-svg path { stroke: #222; stroke-width: 2; stroke-linecap: round; fill: none; }
 
-    .string-svg path {
-      stroke: #222;
-      stroke-width: 2;
-      stroke-linecap: round;
-      fill: none;
-    }
-
-        .string-handle {
-      position: absolute;
-      top: 125px;
-      left: calc(50% + 49px);
-      width: 10px;
-      height: 20px;
-      background: linear-gradient(to bottom, #ebd17a, #aa8529);
-      border-radius: 5px;
+    .string-handle {
+      position: absolute; top: 125px; left: calc(50% + 49px); width: 10px; height: 20px;
+      background: linear-gradient(to bottom, #ebd17a, #aa8529); border-radius: 5px;
       box-shadow: inset 0 2px 3px rgba(255,255,255,.5), 0 3px 5px rgba(0,0,0,.7);
-      cursor: pointer;
-      z-index: 10;
-      touch-action: none;
-      user-select: none;
+      cursor: pointer; z-index: 10; touch-action: none; user-select: none;
       transition: transform .35s cubic-bezier(.2,.8,.2,1);
     }
-
-    /* منطقة لمس واسعة للموبايل */
-    .string-handle::after {
-      content: '';
-      position: absolute;
-      inset: -25px;
-    }
-
-
-    .string-handle.dragging { cursor: grabbing; transition: none; }
+    .string-handle::after { content: ''; position: absolute; inset: -25px; }
 
     .prompt {
-      position: absolute;
-      top: 15%;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #666;
-      font-size: 15px;
-      font-weight: 500;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      opacity: 1;
-      transition: opacity .5s ease, transform .5s ease;
-      white-space: nowrap;
+      position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
+      color: #666; font-size: 15px; font-weight: 500; pointer-events: none;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 1; transition: opacity .5s ease, transform .5s ease; white-space: nowrap;
     }
-
     .room.on .prompt { opacity: 0; transform: translate(-50%, -20px); }
-
-    .prompt i {
-      width: 2px;
-      height: 35px;
-      background: linear-gradient(to bottom, #777, transparent);
-      animation: promptArrow 2s infinite;
-    }
-
-    @keyframes promptArrow {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(8px); }
-    }
+    .prompt i { width: 2px; height: 35px; background: linear-gradient(to bottom, #777, transparent); animation: promptArrow 2s infinite; }
+    @keyframes promptArrow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
 
     .login-side {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      padding-left: 8%;
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      z-index: 10; padding-left: 8%;
     }
-
     .login-card {
-      padding: 44px 36px;
-      border-radius: 24px;
-      width: 100%;
-      max-width: 420px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateX(-40px);
-      filter: blur(10px);
-      pointer-events: none;
-      transition: opacity .6s ease .0s, transform .6s cubic-bezier(.2,.8,.2,1), filter .6s ease;
+      padding: 44px 36px; border-radius: 24px; width: 100%; max-width: 420px;
+      display: flex; flex-direction: column; gap: 20px; position: relative;
+      opacity: 0; transform: translateX(-40px); filter: blur(10px); pointer-events: none;
+      transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1), filter .6s ease;
     }
-
-    .room.on .login-card {
-      opacity: 1;
-      transform: translateX(0);
-      filter: blur(0);
-      pointer-events: auto;
-      transition-delay: .2s;
-    }
-
+    .room.on .login-card { opacity: 1; transform: translateX(0); filter: blur(0); pointer-events: auto; }
     .glass {
-      background: rgba(255,255,255,.05);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.05); backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,.1);
       box-shadow: 0 8px 32px rgba(0,0,0,.4);
     }
-
     .glass-line {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
       background: linear-gradient(90deg, transparent, rgba(255,220,100,.4), transparent);
     }
-
-    .login-heading {
-      text-align: center;
-      margin-bottom: 6px;
-    }
-
-    .login-heading h2 {
-      font-family: 'Tajawal', sans-serif;
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 6px;
-      color: #fff;
-    }
-
+    .login-heading { text-align: center; margin-bottom: 6px; }
+    .login-heading h2 { font-family: 'Tajawal', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 4px; }
     .login-heading p { color: #a39a89; font-size: 14px; }
 
     .inputs { display: flex; flex-direction: column; gap: 16px; }
-
     .input-wrap { position: relative; display: block; }
-
     .input-wrap input {
-      width: 100%;
-      padding: 15px 46px 15px 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.45);
-      color: #fff;
-      font-size: 14px;
-      outline: none;
-      direction: ltr;
-      text-align: right;
-      transition: border-color .3s, box-shadow .3s, background-color .3s;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,.5);
+      width: 100%; padding: 15px 46px 15px 16px; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.45);
+      color: #fff; font-size: 14px; outline: none; direction: ltr; text-align: right;
     }
-
-    .input-wrap input:focus {
-      border-color: rgba(255,220,100,.5);
-      box-shadow: inset 0 2px 4px rgba(0,0,0,.5), 0 0 0 3px rgba(255,220,100,.1);
-    }
-
-    .input-wrap input::placeholder { color: #777; text-align: right; }
-
-    .input-icon {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      width: 20px;
-      height: 20px;
-      transform: translateY(-50%);
-      z-index: 2;
-      opacity: .75;
-    }
-
-    .mail-icon::before {
-      content: '';
-      position: absolute; inset: 3px 1px;
-      border: 2px solid #aaa; border-radius: 3px;
-    }
-    .mail-icon::after {
-      content: '';
-      position: absolute;
-      width: 9px; height: 9px;
-      border-left: 2px solid #aaa; border-bottom: 2px solid #aaa;
-      transform: rotate(-45deg);
-      right: 5px; top: 1px;
-    }
-
-    .lock-icon::before {
-      content: '';
-      position: absolute;
-      width: 12px; height: 10px;
-      border: 2px solid #aaa; border-radius: 3px;
-      right: 2px; bottom: 1px;
-    }
-    .lock-icon::after {
-      content: '';
-      position: absolute;
-      width: 8px; height: 9px;
-      border: 2px solid #aaa; border-bottom: 0;
-      border-radius: 8px 8px 0 0;
-      right: 4px; top: 0;
-    }
+    .input-wrap input:focus { border-color: rgba(255,220,100,.5); }
+    .input-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); opacity: .7; }
 
     .sign-in {
-      padding: 15px;
-      border-radius: 14px;
-      border: none;
-      background: linear-gradient(180deg, #f2c94c, #c9a227);
-      color: #0a0908;
-      font-family: 'Tajawal', sans-serif;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      margin-top: 6px;
-      transition: transform .2s, box-shadow .3s;
+      padding: 15px; border-radius: 14px; border: none;
+      background: linear-gradient(180deg, #f2c94c, #c9a227); color: #0a0908;
+      font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 800;
+      cursor: pointer; margin-top: 6px;
     }
-
-    .sign-in:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 20px rgba(242,201,76,.4);
-    }
-
-    .sign-in:active { transform: translateY(0); }
-
     .login-status {
-      display: none;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      text-align: center;
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.35);
-      color: #f87171;
+      display: none; padding: 10px; border-radius: 10px; font-size: 13px; text-align: center;
+      background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #f87171;
     }
 
     @media (max-width: 900px) {
       .room { flex-direction: column; overflow-y: auto; justify-content: flex-start; }
-      .lamp-side { flex: 0 0 auto; min-height: 320px; padding-top: 30px; justify-content: center; }
+      .lamp-side { flex: 0 0 auto; min-height: 320px; padding-top: 25px; }
       .lamp-container { transform: scale(0.75); margin-top: 10px; }
       .login-side { padding: 10px 20px 40px; flex: 0 0 auto; }
       .login-card { max-width: 380px; transform: translateY(30px); }
@@ -438,25 +216,124 @@
       .prompt { top: 12px; font-size: 13px; }
     }
 
+    /* ================= لوحة التحكم ================= */
+    #dashboard {
+      display: none;
+      min-height: 100vh;
+      background: radial-gradient(60% 40% at 50% 0%, rgba(201,162,39,.06), transparent 60%), var(--bg-0);
+      padding: 20px 16px 60px;
+    }
+    .dash-container { max-width: 1050px; margin: 0 auto; }
 
-    @media (max-height: 650px) and (min-width: 901px) {
-      .lamp-container { transform: scale(.8); }
-      .login-card { padding: 28px; gap: 14px; }
+    .dash-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 18px; border-bottom: 1px solid var(--line); margin-bottom: 22px;
+    }
+    .dash-header h1 { font-family: 'Tajawal', sans-serif; font-size: 1.35rem; color: var(--gold-bright); }
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171; padding: 7px 16px; border-radius: 999px; cursor: pointer;
+      font-size: 0.85rem; font-weight: 700;
+    }
+
+    .dash-tabs { display: flex; gap: 10px; margin-bottom: 24px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+    .tab-btn {
+      background: var(--bg-1); border: 1px solid var(--line); color: var(--ink-muted);
+      padding: 11px 22px; border-radius: 12px; cursor: pointer; font-weight: 700;
+      font-size: 0.95rem; transition: 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--gold-dim); border-color: var(--gold-bright); color: var(--gold-bright);
+    }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .panel-top {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+    }
+    .panel-top h2 { font-family: 'Tajawal', sans-serif; font-size: 1.25rem; }
+
+    .btn-add {
+      background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+      color: var(--bg-0); border: none; padding: 10px 20px; border-radius: 999px;
+      font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    }
+
+    /* كروت المنتجات */
+    .products-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;
+    }
+    .prod-card {
+      background: var(--bg-1); border: 1px solid var(--line); border-radius: var(--radius);
+      overflow: hidden; display: flex; flex-direction: column;
+    }
+    .prod-card-thumb {
+      aspect-ratio: 16/10; background: var(--bg-2); border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .prod-card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .prod-card-thumb svg { width: 40px; height: 40px; color: var(--ink-muted); }
+    .prod-card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .prod-cat {
+      display: inline-block; font-size: 0.75rem; background: var(--gold-dim);
+      color: var(--gold-bright); padding: 3px 10px; border-radius: 999px; align-self: flex-start;
+    }
+    .prod-card-body h3 { font-size: 1.05rem; font-weight: 700; margin: 0; }
+    .prod-card-body p { font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5; flex: 1; }
+    .prod-card-actions {
+      display: flex; gap: 8px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .btn-action-edit, .btn-action-del {
+      flex: 1; padding: 8px; border-radius: 8px; border: 1px solid transparent;
+      font-size: 0.85rem; font-weight: 700; cursor: pointer; text-align: center;
+    }
+    .btn-action-edit { background: rgba(242,201,76,.12); color: var(--gold-bright); border-color: rgba(242,201,76,.3); }
+    .btn-action-del { background: rgba(239,68,68,.12); color: #f87171; border-color: rgba(239,68,68,.3); }
+
+    /* المودال */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75);
+      backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--bg-1); border: 1px solid var(--line); border-radius: var(--radius);
+      width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; padding: 24px;
+    }
+    .modal-box h3 { font-family: 'Tajawal', sans-serif; font-size: 1.25rem; margin-bottom: 18px; color: var(--gold-bright); }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 6px; }
+    .modal-input {
+      width: 100%; padding: 11px 13px; background: var(--bg-0); border: 1px solid var(--line);
+      border-radius: 10px; color: #fff; font-size: 0.9rem; outline: none;
+    }
+    .modal-input:focus { border-color: var(--gold-bright); }
+    textarea.modal-input { min-height: 80px; resize: vertical; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-save {
+      flex: 1; padding: 12px; background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+      color: var(--bg-0); font-weight: 800; border: none; border-radius: 10px; cursor: pointer;
+    }
+    .btn-cancel {
+      padding: 12px 20px; background: transparent; border: 1px solid var(--line);
+      color: var(--ink-muted); border-radius: 10px; cursor: pointer;
     }
   </style>
 </head>
 <body>
 
+  <!-- شاشة الدخول التفاعلية -->
   <main class="room" id="room">
     <div class="room-light" id="roomLight"></div>
     <div class="fireflies" id="fireflies"></div>
 
     <section class="lamp-side">
       <div class="prompt">
-        <span>اسحب الخيط للتشغيل</span>
+        <span>اسحب أو انقر الخيط</span>
         <i></i>
       </div>
-
       <div class="lamp-container" id="lampContainer">
         <div class="lamp-glow"></div>
         <div class="lamp-head"></div>
@@ -464,56 +341,120 @@
         <div class="lamp-stem"></div>
         <div class="lamp-base"></div>
         <div class="desk-surface"></div>
-
-        <svg class="string-svg" aria-hidden="true">
-          <path id="stringPath" d="M 0 0 L 0 80"></path>
-        </svg>
-
-        <div class="string-handle" id="stringHandle" aria-label="Pull lamp string"></div>
+        <svg class="string-svg" aria-hidden="true"><path id="stringPath" d="M 0 0 L 0 80"></path></svg>
+        <div class="string-handle" id="stringHandle"></div>
       </div>
     </section>
 
     <section class="login-side">
       <form class="glass login-card" id="loginForm">
         <div class="glass-line"></div>
-
         <div class="login-heading">
           <h2>لوحة التحكم</h2>
           <p>ورشة الهيثم للكهرباء والطاقة الشمسية</p>
         </div>
-
         <div class="inputs">
           <label class="input-wrap">
-            <span class="input-icon mail-icon" aria-hidden="true"></span>
-            <input type="email" id="email" placeholder="البريد الإلكتروني" autocomplete="email" required>
+            <input type="email" id="email" placeholder="البريد الإلكتروني" required>
           </label>
-
           <label class="input-wrap">
-            <span class="input-icon lock-icon" aria-hidden="true"></span>
-            <input type="password" id="password" placeholder="كلمة المرور" autocomplete="current-password" required>
+            <input type="password" id="password" placeholder="كلمة المرور" required>
           </label>
         </div>
-
         <button class="sign-in" type="submit" id="btnSubmit">تسجيل الدخول</button>
-
         <div class="login-status" id="loginStatus"></div>
       </form>
     </section>
   </main>
 
-  <script>
+  <!-- لوحة الإدارة -->
+  <div id="dashboard">
+    <div class="dash-container">
+      <header class="dash-header">
+        <h1>لوحة تحكم ورشة الهيثم</h1>
+        <button id="btnLogout" class="btn-logout">تسجيل الخروج</button>
+      </header>
+
+      <div class="dash-tabs">
+        <button class="tab-btn active" id="tabBtnProducts" onclick="switchTab('products')">المنتجات</button>
+        <button class="tab-btn" id="tabBtnGallery" onclick="switchTab('gallery')">معرض الأعمال</button>
+      </div>
+
+      <!-- تبويب المنتجات -->
+      <section id="tab-products" class="panel active">
+        <div class="panel-top">
+          <h2>إدارة المنتجات (<span id="products-count">0</span>)</h2>
+          <button class="btn-add" onclick="openProductModal()">+ إضافة منتج جديد</button>
+        </div>
+        <div class="products-grid" id="productsGrid">
+          <p style="color:var(--ink-muted);">جاري جلب المنتجات...</p>
+        </div>
+      </section>
+
+      <!-- تبويب معرض الأعمال (سنفعله بالخطوة التالية) -->
+      <section id="tab-gallery" class="panel">
+        <div class="panel-top">
+          <h2>معرض الأعمال</h2>
+        </div>
+        <div id="galleryContent" style="color:var(--ink-muted); padding:30px; text-align:center;">
+          قسم معرض الأعمال سيتم تفعيله بالخطوة التالية فور انتهاء فحص المنتجات.
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- مودال إضافة / تعديل منتج -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-box">
+      <h3 id="modalTitle">إضافة منتج جديد</h3>
+      <form id="productForm">
+        <input type="hidden" id="prodId">
+        <div class="form-group">
+          <label for="prodName">اسم المنتج *</label>
+          <input type="text" id="prodName" class="modal-input" required placeholder="مثال: إنفرتر هجين 5KVA">
+        </div>
+        <div class="form-group">
+          <label for="prodCat">التصنيف</label>
+          <input type="text" id="prodCat" class="modal-input" placeholder="مثال: إنفرترات، بطاريات...">
+        </div>
+        <div class="form-group">
+          <label for="prodDesc">وصف المنتج</label>
+          <textarea id="prodDesc" class="modal-input" placeholder="تفاصيل ومواصفات المنتج"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="prodImg">رابط الصورة (URL)</label>
+          <input type="url" id="prodImg" class="modal-input" placeholder="https://example.com/image.jpg" dir="ltr">
+        </div>
+        <div class="form-group">
+          <label for="prodOrder">ترتيب الظهور</label>
+          <input type="number" id="prodOrder" class="modal-input" value="0">
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-save" id="btnSaveProd">حفظ المنتج</button>
+          <button type="button" class="btn-cancel" onclick="closeProductModal()">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = 'https://eftlniajfnvvzmxswgtj.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_6ypXec8dblC0ZHq7ERXUuw_TzXAZTnu';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // إدارة عناصر الدخول واللمبة
     const room = document.getElementById('room');
     const handle = document.getElementById('stringHandle');
     const path = document.getElementById('stringPath');
     const fireflies = document.getElementById('fireflies');
     const loginForm = document.getElementById('loginForm');
+    const loginStatus = document.getElementById('loginStatus');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const dashboard = document.getElementById('dashboard');
 
-    let isOn = false;
-    let dragging = false;
-    let startX = 0;
-    let startY = 0;
-    let dragX = 0;
-    let dragY = 0;
+    let isOn = false, dragging = false, startX = 0, startY = 0, dragX = 0, dragY = 0;
 
     function setLamp(on) {
       isOn = on;
@@ -521,59 +462,34 @@
       if (isOn) createFireflies();
       else fireflies.innerHTML = '';
     }
+        function updateString(x, y) { path.setAttribute('d', `M 0 0 L ${x} ${80 + y}`); }
+    function resetHandle() { handle.style.transform = 'translate(0px, 0px)'; updateString(0, 0); }
 
-    function updateString(x, y) {
-      path.setAttribute('d', `M 0 0 L ${x} ${80 + y}`);
-    }
-
-    function resetHandle() {
-      handle.style.transform = 'translate(0px, 0px)';
-      updateString(0, 0);
-    }
-
-        function pointerDown(e) {
+    function pointerDown(e) {
       dragging = true;
-      handle.classList.add('dragging');
       startX = e.clientX || (e.touches && e.touches[0].clientX);
       startY = e.clientY || (e.touches && e.touches[0].clientY);
-      dragX = 0;
-      dragY = 0;
-      if (handle.setPointerCapture && e.pointerId) {
-        handle.setPointerCapture(e.pointerId);
-      }
+      dragX = 0; dragY = 0;
+      if (handle.setPointerCapture && e.pointerId) handle.setPointerCapture(e.pointerId);
     }
-
     function pointerMove(e) {
       if (!dragging) return;
       const currentX = e.clientX || (e.touches && e.touches[0].clientX);
       const currentY = e.clientY || (e.touches && e.touches[0].clientY);
-      
-      dragX = (currentX - startX) * 0.3;
-      dragY = Math.max(0, currentY - startY) * 0.6;
-      dragX = Math.max(-35, Math.min(35, dragX));
-      dragY = Math.min(180, dragY);
-      
+      dragX = Math.max(-35, Math.min(35, (currentX - startX) * 0.3));
+      dragY = Math.min(180, Math.max(0, currentY - startY) * 0.6);
       handle.style.transform = `translate(${dragX}px, ${dragY}px)`;
       updateString(dragX, dragY);
     }
-
-    function pointerUp(e) {
+    function pointerUp() {
       if (!dragging) return;
       dragging = false;
-      handle.classList.remove('dragging');
-
-      // إذا المستخدم سحب أو نقر نقرة سريعة (Tap)
       const pulled = dragY > 20 || dragY === 0;
-      
       if (pulled) {
-        // أنيميشن نقرة خفيفة في حال كانت نقرة ولم تكن سحباً
         if (dragY === 0) {
           handle.style.transform = 'translate(0px, 25px)';
           updateString(0, 25);
-          setTimeout(() => {
-            resetHandle();
-            setLamp(!isOn);
-          }, 150);
+          setTimeout(() => { resetHandle(); setLamp(!isOn); }, 150);
           return;
         }
         setLamp(!isOn);
@@ -586,65 +502,185 @@
     handle.addEventListener('pointerup', pointerUp);
     handle.addEventListener('pointercancel', pointerUp);
 
-
-    function pointerMove(e) {
-      if (!dragging) return;
-      dragX = (e.clientX - startX) * 0.3;
-      dragY = Math.max(0, e.clientY - startY) * 0.6;
-      dragX = Math.max(-35, Math.min(35, dragX));
-      dragY = Math.min(180, dragY);
-      handle.style.transform = `translate(${dragX}px, ${dragY}px)`;
-      updateString(dragX, dragY);
-    }
-
-    function pointerUp() {
-      if (!dragging) return;
-      dragging = false;
-      handle.classList.remove('dragging');
-
-      const pulled = dragY > 30;
-      resetHandle();
-
-      if (pulled) setLamp(!isOn);
-    }
-
-    handle.addEventListener('pointerdown', pointerDown);
-    handle.addEventListener('pointermove', pointerMove);
-    handle.addEventListener('pointerup', pointerUp);
-    handle.addEventListener('pointercancel', pointerUp);
-
-    function random(min, max) {
-      return Math.random() * (max - min) + min;
-    }
-
     function createFireflies() {
       fireflies.innerHTML = '';
-
       for (let i = 0; i < 18; i++) {
         const dot = document.createElement('span');
         dot.className = 'firefly';
-
-        const size = random(3, 7);
-        dot.style.width = `${size}px`;
-        dot.style.height = `${size}px`;
-        dot.style.setProperty('--duration', `${random(35, 65)}s`);
-        dot.style.setProperty('--delay', `${random(0, 3)}s`);
-
+        const size = Math.random() * 4 + 3;
+        dot.style.width = `${size}px`; dot.style.height = `${size}px`;
+        dot.style.setProperty('--duration', `${Math.random() * 30 + 35}s`);
+        dot.style.setProperty('--delay', `${Math.random() * 3}s`);
         for (let n = 1; n <= 5; n++) {
-          dot.style.setProperty(`--x${n}`, `${random(0, 100)}vw`);
-          dot.style.setProperty(`--y${n}`, `${random(0, 100)}vh`);
+          dot.style.setProperty(`--x${n}`, `${Math.random() * 100}vw`);
+          dot.style.setProperty(`--y${n}`, `${Math.random() * 100}vh`);
         }
-
         fireflies.appendChild(dot);
       }
     }
 
-    loginForm.addEventListener('submit', (e) => {
+    // التحقق من الجلسة وتسجيل الدخول
+    async function checkSession() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        showDashboard();
+      }
+    }
+
+    function showDashboard() {
+      room.style.display = 'none';
+      dashboard.style.display = 'block';
+      document.body.style.overflow = 'auto';
+      loadProducts();
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      loginStatus.style.display = 'none';
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = 'جاري التحقق...';
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        loginStatus.textContent = 'بيانات الدخول غير صحيحة.';
+        loginStatus.style.display = 'block';
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = 'تسجيل الدخول';
+      } else {
+        showDashboard();
+      }
     });
 
-    setLamp(false);
+    document.getElementById('btnLogout').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      location.reload();
+    });
+
+    window.switchTab = function(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(`tab-${tab}`).classList.add('active');
+      document.getElementById(tab === 'products' ? 'tabBtnProducts' : 'tabBtnGallery').classList.add('active');
+    };
+
+    // ================= إدارة المنتجات =================
+    let allProducts = [];
+
+    async function loadProducts() {
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = '<p style="color:var(--ink-muted);">جاري تحميل المنتجات...</p>';
+
+      const { data, error } = await supabase.from('products').select('*').order('category').order('sort_order');
+      if (error) {
+        grid.innerHTML = '<p style="color:var(--danger);">حدث خطأ أثناء تحميل المنتجات.</p>';
+        return;
+      }
+
+      allProducts = data || [];
+      document.getElementById('products-count').textContent = allProducts.length;
+
+      if (!allProducts.length) {
+        grid.innerHTML = '<p style="color:var(--ink-muted);">لا يوجد منتجات حالياً. أضف منتجك الأول من الزر بالأعلى.</p>';
+        return;
+      }
+
+      grid.innerHTML = allProducts.map(p => `
+        <div class="prod-card">
+          <div class="prod-card-thumb">
+            ${p.image_url ? `<img src="${p.image_url}" alt="${p.name}">` : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 16 5-5 4 4 4-6 5 7"/></svg>`}
+          </div>
+          <div class="prod-card-body">
+            ${p.category ? `<span class="prod-cat">${p.category}</span>` : ''}
+            <h3>${p.name}</h3>
+            <p>${p.description || 'بدون وصف'}</p>
+            <div class="prod-card-actions">
+              <button class="btn-action-edit" onclick="editProduct(${p.id})">تعديل</button>
+              <button class="btn-action-del" onclick="deleteProduct(${p.id})">حذف</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.openProductModal = function() {
+      document.getElementById('modalTitle').textContent = 'إضافة منتج جديد';
+      document.getElementById('prodId').value = '';
+      document.getElementById('prodName').value = '';
+      document.getElementById('prodCat').value = '';
+      document.getElementById('prodDesc').value = '';
+      document.getElementById('prodImg').value = '';
+      document.getElementById('prodOrder').value = '0';
+      document.getElementById('productModal').classList.add('open');
+    };
+
+    window.closeProductModal = function() {
+      document.getElementById('productModal').classList.remove('open');
+    };
+
+    window.editProduct = function(id) {
+      const p = allProducts.find(item => item.id === id);
+      if (!p) return;
+      document.getElementById('modalTitle').textContent = 'تعديل منتج: ' + p.name;
+      document.getElementById('prodId').value = p.id;
+      document.getElementById('prodName').value = p.name || '';
+      document.getElementById('prodCat').value = p.category || '';
+      document.getElementById('prodDesc').value = p.description || '';
+      document.getElementById('prodImg').value = p.image_url || '';
+      document.getElementById('prodOrder').value = p.sort_order || 0;
+      document.getElementById('productModal').classList.add('open');
+    };
+
+    window.deleteProduct = function(id) {
+      const p = allProducts.find(item => item.id === id);
+      const name = p ? p.name : 'هذا المنتج';
+      if (!confirm(`هل أنت متأكد من حذف ${name}؟`)) return;
+
+      supabase.from('products').delete().eq('id', id).then(({ error }) => {
+        if (error) {
+          alert('فشل الحذف: ' + error.message);
+        } else {
+          loadProducts();
+        }
+      });
+    };
+
+    document.getElementById('productForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnSaveProd');
+      btn.disabled = true;
+      btn.textContent = 'جاري الحفظ...';
+
+      const id = document.getElementById('prodId').value;
+      const payload = {
+        name: document.getElementById('prodName').value.trim(),
+        category: document.getElementById('prodCat').value.trim(),
+        description: document.getElementById('prodDesc').value.trim(),
+        image_url: document.getElementById('prodImg').value.trim(),
+        sort_order: parseInt(document.getElementById('prodOrder').value) || 0
+      };
+
+      let result;
+      if (id) {
+        result = await supabase.from('products').update(payload).eq('id', id);
+      } else {
+        result = await supabase.from('products').insert([payload]);
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'حفظ المنتج';
+
+      if (result.error) {
+        alert('حدث خطأ أثناء الحفظ: ' + result.error.message);
+      } else {
+        closeProductModal();
+        loadProducts();
+      }
+    });
+
+    checkSession();
   </script>
 </body>
-  </html>
-  
+</html>
