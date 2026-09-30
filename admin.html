@@ -653,16 +653,16 @@ function resetHandle() { handle.style.transform = 'translate(0px, 0px)'; updateS
       document.getElementById('productModal').classList.remove('open');
     };
 
-    window.editProduct = function(id) {
+        window.editProduct = function(id) {
       const p = allProducts.find(item => String(item.id) === String(id));
       if (!p) return;
       document.getElementById('modalTitle').textContent = 'تعديل منتج: ' + p.name;
       document.getElementById('prodId').value = p.id;
       document.getElementById('prodName').value = p.name || '';
+      document.getElementById('prodCat').value = p.category || '';
+      document.getElementById('prodDesc').value = p.description || '';
       document.getElementById('prodExistingImg').value = p.image_url || '';
       document.getElementById('prodFile').value = '';
-      document.getElementById('prodDesc').value = p.description || '';
-      document.getElementById('prodImg').value = p.image_url || '';
       document.getElementById('prodOrder').value = p.sort_order || 0;
       document.getElementById('productModal').classList.add('open');
     };
