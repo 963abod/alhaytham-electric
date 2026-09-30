@@ -391,15 +391,17 @@
         </div>
       </section>
 
-      <!-- تبويب معرض الأعمال (سنفعله بالخطوة التالية) -->
+            <!-- تبويب معرض الأعمال -->
       <section id="tab-gallery" class="panel">
         <div class="panel-top">
-          <h2>معرض الأعمال</h2>
+          <h2>أعمال الورشة المنفذة (<span id="galCount">0</span>)</h2>
+          <button class="btn-add" onclick="openAddGallery()">+ إضافة عمل جديد</button>
         </div>
-        <div id="galleryContent" style="color:var(--ink-muted); padding:30px; text-align:center;">
-          قسم معرض الأعمال سيتم تفعيله بالخطوة التالية فور انتهاء فحص المنتجات.
+        <div class="products-grid" id="galleryGrid">
+          <p style="color:var(--ink-muted);">جاري تحميل الأعمال...</p>
         </div>
       </section>
+
     </div>
   </div>
 
@@ -438,6 +440,33 @@
     </div>
   </div>
 
+    <!-- مودال معرض الأعمال -->
+  <div class="modal-overlay" id="galleryModal">
+    <div class="modal-box">
+      <h3 id="modalGalTitle">إضافة عمل جديد</h3>
+      <form id="galleryForm">
+        <input type="hidden" id="galId">
+        <input type="hidden" id="galExistingImg">
+        <div class="form-group">
+          <label for="galCaption">عنوان / وصف العمل *</label>
+          <input type="text" id="galCaption" class="modal-input" placeholder="مثال: تركيب منظومة طاقة شمسية" required>
+        </div>
+        <div class="form-group">
+          <label for="galFile">صورة العمل (من الموبايل)</label>
+          <input type="file" id="galFile" accept="image/*" class="modal-input">
+        </div>
+        <div class="form-group">
+          <label for="galOrder">ترتيب الظهور</label>
+          <input type="number" id="galOrder" class="modal-input" value="0">
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-save" id="btnSaveGal">حفظ العمل</button>
+          <button type="button" class="btn-cancel" onclick="closeGalleryModal()">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
@@ -533,6 +562,7 @@ function resetHandle() { handle.style.transform = 'translate(0px, 0px)'; updateS
       dashboard.style.display = 'block';
       document.body.style.overflow = 'auto';
       loadProducts();
+      loadGallery();
     }
 
     loginForm.addEventListener('submit', async (e) => {
@@ -712,7 +742,109 @@ function resetHandle() { handle.style.transform = 'translate(0px, 0px)'; updateS
         loadProducts();
       }
     });
+    // ================= كود معرض الأعمال =================
+    let galleryList = [];
 
+    async function loadGallery() {
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = '<p style="color:var(--ink-muted);">جاري تحميل الأعمال...</p>';
+      const { data, error } = await supabase.from('gallery').select('*').order('sort_order');
+      if (error) { grid.innerHTML = '<p style="color:var(--danger);">خطأ في جلب الأعمال.</p>'; return; }
+
+      galleryList = data || [];
+      document.getElementById('galCount').textContent = galleryList.length;
+
+      if (!galleryList.length) {
+        grid.innerHTML = '<p style="color:var(--ink-muted);">لا توجد أعمال مضافة حالياً.</p>';
+        return;
+      }
+
+      grid.innerHTML = galleryList.map(g => `
+        <div class="prod-card">
+          <div class="prod-card-thumb">
+            <img src="${g.image_url}" alt="${g.caption || ''}">
+          </div>
+          <div class="prod-card-body">
+            <h3>${g.caption || 'عمل بدون عنوان'}</h3>
+            <div class="prod-card-actions">
+              <button class="btn-action-edit" onclick="editGallery('${g.id}')">تعديل</button>
+              <button class="btn-action-del" onclick="deleteGallery('${g.id}')">حذف</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.openAddGallery = function() {
+      document.getElementById('modalGalTitle').textContent = 'إضافة عمل جديد';
+      document.getElementById('galId').value = '';
+      document.getElementById('galExistingImg').value = '';
+      document.getElementById('galCaption').value = '';
+      document.getElementById('galOrder').value = '0';
+      document.getElementById('galFile').value = '';
+      document.getElementById('galleryModal').classList.add('open');
+    };
+
+    window.closeGalleryModal = function() {
+      document.getElementById('galleryModal').classList.remove('open');
+    };
+
+    window.editGallery = function(id) {
+      const g = galleryList.find(item => String(item.id) === String(id));
+      if (!g) return;
+      document.getElementById('modalGalTitle').textContent = 'تعديل عمل';
+      document.getElementById('galId').value = g.id;
+      document.getElementById('galExistingImg').value = g.image_url || '';
+      document.getElementById('galCaption').value = g.caption || '';
+      document.getElementById('galOrder').value = g.sort_order || 0;
+      document.getElementById('galFile').value = '';
+      document.getElementById('galleryModal').classList.add('open');
+    };
+
+    window.deleteGallery = async function(id) {
+      if (!confirm('هل أنت متأكد من حذف هذه الصورة؟')) return;
+      const { error } = await supabase.from('gallery').delete().eq('id', id);
+      if (error) alert('فشل الحذف: ' + error.message);
+      else loadGallery();
+    };
+
+    document.getElementById('galleryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnSaveGal');
+      btn.disabled = true;
+      btn.textContent = 'جاري الرفع والحفظ...';
+
+      try {
+        let imgUrl = document.getElementById('galExistingImg').value;
+        const file = document.getElementById('galFile').files[0];
+        if (file) {
+          imgUrl = await uploadImage(file);
+        } else if (!imgUrl) {
+          throw new Error('يرجى اختيار صورة للعمل.');
+        }
+
+        const id = document.getElementById('galId').value;
+        const payload = {
+          caption: document.getElementById('galCaption').value.trim(),
+          image_url: imgUrl,
+          sort_order: parseInt(document.getElementById('galOrder').value) || 0
+        };
+
+        const res = id
+          ? await supabase.from('gallery').update(payload).eq('id', id)
+          : await supabase.from('gallery').insert([payload]);
+
+        if (res.error) throw res.error;
+        closeGalleryModal();
+        loadGallery();
+      } catch (err) {
+        alert('خطأ: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'حفظ العمل';
+      }
+    });
+          
     checkSession();
   </script>
 </body>
