@@ -207,7 +207,7 @@
       fill: none;
     }
 
-    .string-handle {
+        .string-handle {
       position: absolute;
       top: 125px;
       left: calc(50% + 49px);
@@ -216,12 +216,20 @@
       background: linear-gradient(to bottom, #ebd17a, #aa8529);
       border-radius: 5px;
       box-shadow: inset 0 2px 3px rgba(255,255,255,.5), 0 3px 5px rgba(0,0,0,.7);
-      cursor: grab;
-      z-index: 6;
+      cursor: pointer;
+      z-index: 10;
       touch-action: none;
       user-select: none;
       transition: transform .35s cubic-bezier(.2,.8,.2,1);
     }
+
+    /* منطقة لمس واسعة للموبايل */
+    .string-handle::after {
+      content: '';
+      position: absolute;
+      inset: -25px;
+    }
+
 
     .string-handle.dragging { cursor: grabbing; transition: none; }
 
@@ -421,13 +429,15 @@
     }
 
     @media (max-width: 900px) {
-      .room { flex-direction: column; overflow-y: auto; }
-      .lamp-side { flex: 0 0 50vh; min-height: 380px; }
-      .login-side { padding: 20px 20px 40px; flex: 0 0 auto; }
+      .room { flex-direction: column; overflow-y: auto; justify-content: flex-start; }
+      .lamp-side { flex: 0 0 auto; min-height: 320px; padding-top: 30px; justify-content: center; }
+      .lamp-container { transform: scale(0.75); margin-top: 10px; }
+      .login-side { padding: 10px 20px 40px; flex: 0 0 auto; }
       .login-card { max-width: 380px; transform: translateY(30px); }
       .room.on .login-card { transform: translateY(0); }
-      .prompt { top: 6%; font-size: 13px; }
+      .prompt { top: 12px; font-size: 13px; }
     }
+
 
     @media (max-height: 650px) and (min-width: 901px) {
       .lamp-container { transform: scale(.8); }
@@ -521,15 +531,61 @@
       updateString(0, 0);
     }
 
-    function pointerDown(e) {
+        function pointerDown(e) {
       dragging = true;
       handle.classList.add('dragging');
-      startX = e.clientX;
-      startY = e.clientY;
+      startX = e.clientX || (e.touches && e.touches[0].clientX);
+      startY = e.clientY || (e.touches && e.touches[0].clientY);
       dragX = 0;
       dragY = 0;
-      handle.setPointerCapture?.(e.pointerId);
+      if (handle.setPointerCapture && e.pointerId) {
+        handle.setPointerCapture(e.pointerId);
+      }
     }
+
+    function pointerMove(e) {
+      if (!dragging) return;
+      const currentX = e.clientX || (e.touches && e.touches[0].clientX);
+      const currentY = e.clientY || (e.touches && e.touches[0].clientY);
+      
+      dragX = (currentX - startX) * 0.3;
+      dragY = Math.max(0, currentY - startY) * 0.6;
+      dragX = Math.max(-35, Math.min(35, dragX));
+      dragY = Math.min(180, dragY);
+      
+      handle.style.transform = `translate(${dragX}px, ${dragY}px)`;
+      updateString(dragX, dragY);
+    }
+
+    function pointerUp(e) {
+      if (!dragging) return;
+      dragging = false;
+      handle.classList.remove('dragging');
+
+      // إذا المستخدم سحب أو نقر نقرة سريعة (Tap)
+      const pulled = dragY > 20 || dragY === 0;
+      
+      if (pulled) {
+        // أنيميشن نقرة خفيفة في حال كانت نقرة ولم تكن سحباً
+        if (dragY === 0) {
+          handle.style.transform = 'translate(0px, 25px)';
+          updateString(0, 25);
+          setTimeout(() => {
+            resetHandle();
+            setLamp(!isOn);
+          }, 150);
+          return;
+        }
+        setLamp(!isOn);
+      }
+      resetHandle();
+    }
+
+    handle.addEventListener('pointerdown', pointerDown);
+    handle.addEventListener('pointermove', pointerMove);
+    handle.addEventListener('pointerup', pointerUp);
+    handle.addEventListener('pointercancel', pointerUp);
+
 
     function pointerMove(e) {
       if (!dragging) return;
