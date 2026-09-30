@@ -648,20 +648,52 @@ function resetHandle() { handle.style.transform = 'translate(0px, 0px)'; updateS
       });
     };
 
+    async function uploadImage(file) {
+  const ext = file.name.split('.').pop();
+  const filePath = `uploads/${Date.now()}_${Math.random().toString(36).substring(2, 6)}.${ext}`;
+  const { error } = await supabase.storage.from('images').upload(filePath, file);
+  if (error) throw error;
+  const { data } = supabase.storage.from('images').getPublicUrl(filePath);
+  return data.publicUrl;
+    }
+      
     document.getElementById('productForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById('btnSaveProd');
-      btn.disabled = true;
-      btn.textContent = 'جاري الحفظ...';
+  e.preventDefault();
+  const btn = document.getElementById('btnSaveProd');
+  btn.disabled = true;
+  btn.textContent = 'جاري الرفع والحفظ...';
 
-      const id = document.getElementById('prodId').value;
-      const payload = {
-        name: document.getElementById('prodName').value.trim(),
-        category: document.getElementById('prodCat').value.trim(),
-        description: document.getElementById('prodDesc').value.trim(),
-        image_url: document.getElementById('prodImg').value.trim(),
-        sort_order: parseInt(document.getElementById('prodOrder').value) || 0
-      };
+  try {
+    let imgUrl = document.getElementById('prodExistingImg').value;
+    const file = document.getElementById('prodFile').files[0];
+    if (file) {
+      imgUrl = await uploadImage(file);
+    }
+
+    const id = document.getElementById('prodId').value;
+    const payload = {
+      name: document.getElementById('prodName').value.trim(),
+      category: document.getElementById('prodCat').value.trim(),
+      description: document.getElementById('prodDesc').value.trim(),
+      image_url: imgUrl,
+      sort_order: parseInt(document.getElementById('prodOrder').value) || 0
+    };
+
+    const res = id
+      ? await supabase.from('products').update(payload).eq('id', id)
+      : await supabase.from('products').insert([payload]);
+
+    if (res.error) throw res.error;
+    closeProductModal();
+    loadProducts();
+  } catch (err) {
+    alert('خطأ: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'حفظ المنتج';
+  }
+});
+
 
       let result;
       if (id) {
