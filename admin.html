@@ -629,7 +629,7 @@ function resetHandle() { handle.style.transform = 'translate(0px, 0px)'; updateS
             <p>${p.description || 'بدون وصف'}</p>
             <div class="prod-card-actions">
               <button class="btn-action-edit" onclick="editProduct('${p.id}')">تعديل</button>
-              <<button class="btn-action-del" onclick="deleteProduct('${p.id}')">حذف</button>
+              <button class="btn-action-del" onclick="deleteProduct('${p.id}')">حذف</button>
             </div>
           </div>
         </div>
@@ -642,7 +642,9 @@ function resetHandle() { handle.style.transform = 'translate(0px, 0px)'; updateS
       document.getElementById('prodName').value = '';
       document.getElementById('prodCat').value = '';
       document.getElementById('prodDesc').value = '';
-      document.getElementById('prodImg').value = '';
+      document.getElementById('prodFile').value = '';
+      document.getElementById('prodExistingImg').value = '';
+
       document.getElementById('prodOrder').value = '0';
       document.getElementById('productModal').classList.add('open');
     };
@@ -652,12 +654,13 @@ function resetHandle() { handle.style.transform = 'translate(0px, 0px)'; updateS
     };
 
     window.editProduct = function(id) {
-      const p = allProducts.find(item => item.id === id);
+      const p = allProducts.find(item => String(item.id) === String(id));
       if (!p) return;
       document.getElementById('modalTitle').textContent = 'تعديل منتج: ' + p.name;
       document.getElementById('prodId').value = p.id;
       document.getElementById('prodName').value = p.name || '';
-      document.getElementById('prodCat').value = p.category || '';
+      document.getElementById('prodExistingImg').value = p.image_url || '';
+      document.getElementById('prodFile').value = '';
       document.getElementById('prodDesc').value = p.description || '';
       document.getElementById('prodImg').value = p.image_url || '';
       document.getElementById('prodOrder').value = p.sort_order || 0;
@@ -723,25 +726,6 @@ function resetHandle() { handle.style.transform = 'translate(0px, 0px)'; updateS
     btn.textContent = 'حفظ المنتج';
   }
 });
-
-
-      let result;
-      if (id) {
-        result = await supabase.from('products').update(payload).eq('id', id);
-      } else {
-        result = await supabase.from('products').insert([payload]);
-      }
-
-      btn.disabled = false;
-      btn.textContent = 'حفظ المنتج';
-
-      if (result.error) {
-        alert('حدث خطأ أثناء الحفظ: ' + result.error.message);
-      } else {
-        closeProductModal();
-        loadProducts();
-      }
-    });
     // ================= كود معرض الأعمال =================
     let galleryList = [];
 
