@@ -422,9 +422,10 @@
           <textarea id="prodDesc" class="modal-input" placeholder="تفاصيل ومواصفات المنتج"></textarea>
         </div>
         <div class="form-group">
-          <label for="prodImg">رابط الصورة (URL)</label>
-          <input type="url" id="prodImg" class="modal-input" placeholder="https://example.com/image.jpg" dir="ltr">
-        </div>
+  <label for="prodFile">صورة المنتج (من الموبايل)</label>
+  <input type="file" id="prodFile" accept="image/*" class="modal-input">
+  <input type="hidden" id="prodExistingImg">
+</div>
         <div class="form-group">
           <label for="prodOrder">ترتيب الظهور</label>
           <input type="number" id="prodOrder" class="modal-input" value="0">
@@ -597,8 +598,8 @@ function resetHandle() { handle.style.transform = 'translate(0px, 0px)'; updateS
             <h3>${p.name}</h3>
             <p>${p.description || 'بدون وصف'}</p>
             <div class="prod-card-actions">
-              <button class="btn-action-edit" onclick="editProduct(${p.id})">تعديل</button>
-              <button class="btn-action-del" onclick="deleteProduct(${p.id})">حذف</button>
+              <button class="btn-action-edit" onclick="editProduct('${p.id}')">تعديل</button>
+              <<button class="btn-action-del" onclick="deleteProduct('${p.id}')">حذف</button>
             </div>
           </div>
         </div>
