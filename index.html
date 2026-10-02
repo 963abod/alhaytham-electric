@@ -899,7 +899,7 @@
         if (!isPointerDown) return;
         const deltaX = e.clientX - startX;
         if (Math.abs(deltaX) > 6) hasMoved = true;
-        currentAngle = startAngle + (deltaX * 0.25);
+        currentAngle = startAngle + (deltaX * 0.08);
         rotator.style.transform = `rotateY(${currentAngle}deg)`;
       });
 
