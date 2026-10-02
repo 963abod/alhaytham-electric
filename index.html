@@ -28,59 +28,74 @@
     --ink:#f4efe4; --ink-muted:#a39a89; --ink-faint:#6f6858;
     --line:rgba(201,162,39,.16); --radius:14px; --maxw:1120px;
   }
-        /* ================= 3D Image Ring Styles ================= */
+        /* ================= Fan Carousel ================= */
     .ring-stage {
       width: 100%;
-      height: 420px;
+      height: 430px;
       display: flex;
       align-items: center;
       justify-content: center;
-      perspective: 1000px;
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
       touch-action: pan-y;
       cursor: grab;
       user-select: none;
+      perspective: 1200px;
     }
-    .ring-stage:active {
-      cursor: grabbing;
-    }
+    .ring-stage:active { cursor: grabbing; }
+
     .ring-rotator {
       position: relative;
-      width: 200px;
-      height: 280px;
+      width: 250px;
+      height: 330px;
       transform-style: preserve-3d;
       will-change: transform;
     }
+
     .ring-card {
       position: absolute;
-      inset: 0 6px;
-      border-radius: 16px;
+      left: 50%;
+      top: 50%;
+      width: 250px;
+      height: 330px;
+      margin-left: -125px;
+      margin-top: -165px;
+      border-radius: 18px;
       overflow: hidden;
-      background: var(--bg-1, #121110);
-      border: 1px solid var(--line, rgba(201, 162, 39, 0.25));
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      background: var(--bg-1);
+      border: 1px solid var(--line);
+      box-shadow: 0 22px 45px rgba(0,0,0,.48);
       backface-visibility: hidden;
       display: flex;
       flex-direction: column;
+      transform-origin: 50% 115%;
+      transition:
+        transform .55s cubic-bezier(.22,.8,.2,1),
+        opacity .45s ease,
+        filter .45s ease,
+        box-shadow .45s ease;
+      cursor: pointer;
     }
 
     .ring-card img {
       width: 100%;
-      height: 70%;
+      height: 75%;
       object-fit: cover;
       pointer-events: none;
     }
+
     .ring-card-info {
+      height: 25%;
       padding: 10px 12px;
-      background: linear-gradient(180deg, rgba(18,17,16,0.8), #121110);
-      flex: 1;
+      background: linear-gradient(180deg, rgba(18,17,16,.9), #121110);
       display: flex;
       flex-direction: column;
       justify-content: center;
+      flex-shrink: 0;
     }
+
     .ring-card-info h4 {
-      font-size: 0.9rem;
+      font-size: .9rem;
       font-weight: 700;
       color: #fff;
       margin: 0;
@@ -88,43 +103,35 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .ring-card-info p {
-      font-size: 0.75rem;
-      color: var(--gold-bright, #f2c94c);
+      font-size: .75rem;
+      color: var(--gold-bright);
       margin: 3px 0 0;
     }
+
     .ring-hint {
       text-align: center;
-      font-size: 0.8rem;
-      color: var(--ink-muted, #a39a89);
+      font-size: .8rem;
+      color: var(--ink-muted);
       margin-top: 8px;
       margin-bottom: 20px;
     }
-    @media (max-width: 639px){
-      .ring-stage{
-        height: 350px;
-      }
-      .ring-rotator{
-        width: 160px;
-        height: 224px;
-      }
-      .ring-card{
-        inset: 0 5px;
-        border-radius: 20px;
-      }
-      .ring-card-info{
-        padding: 7px 9px;
-      }
-      .ring-card-info h4{
-        font-size: 0.78rem;
-      }
-      .ring-card-info p{
-        font-size: 0.66rem;
-        margin-top: 2px;
-      }
-    }
 
-    
+    @media (max-width: 639px){
+      .ring-stage { height: 365px; }
+      .ring-rotator { width: 180px; height: 250px; }
+      .ring-card {
+        width: 180px;
+        height: 250px;
+        margin-left: -90px;
+        margin-top: -125px;
+        border-radius: 17px;
+      }
+      .ring-card-info { padding: 7px 9px; }
+      .ring-card-info h4 { font-size: .78rem; }
+      .ring-card-info p { font-size: .66rem; margin-top: 2px; }
+    }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{margin:0;background:radial-gradient(60% 40% at 85% -5%, rgba(201,162,39,.08), transparent 60%),var(--bg-0);
@@ -841,86 +848,130 @@
       sGrid.appendChild(div);
     });
 
-        // ================= محرك التدوير 3D Ring =================
-    function setupRing3D(stage, rotator, items, renderCard, cardGap = 0) {
+        // ================= محرك Fan Carousel =================
+    function setupRing3D(stage, rotator, items, renderCard) {
       if (!items || !items.length) {
         rotator.innerHTML = '<p style="color:var(--ink-muted);text-align:center;padding-top:120px;">لا توجد عناصر حالياً</p>';
         return;
       }
-      rotator.innerHTML = '';
-      const count = items.length;
-      const angleStep = 360 / count;
-      const isMobile = window.matchMedia('(max-width: 639px)').matches;
-      const cardWidth = isMobile ? 160 : 200;
-      // العرض الفعلي للكرت بعد الـ inset
-      const cardActualWidth = cardWidth - (isMobile ? 10 : 12);
-      const radius = count > 2
-        ? Math.min(700, Math.max(220, Math.ceil((cardActualWidth + cardGap) / (2 * Math.sin(Math.PI / count)))))
-        : (count === 2 ? 220 + cardGap : 0);
 
-      let hasMoved = false;
+      rotator.innerHTML = '';
+      const cards = [];
+      let activeIndex = 0;
+      let pointerDown = false;
+      let startX = 0;
+      let startIndex = 0;
+      let moved = false;
+
+      const isMobile = window.matchMedia('(max-width: 639px)').matches;
+      const spread = isMobile ? 54 : 72;
+      const lift = isMobile ? 22 : 30;
+      const rotation = isMobile ? 9 : 11;
 
       items.forEach((item, i) => {
         const card = document.createElement('div');
         card.className = 'ring-card';
-        // إضافة مسافة فعلية بين بطاقات المنتجات بدون تغيير حجم الصور
-        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px)`;
-        renderCard(card, item, () => hasMoved);
+        renderCard(card, item, () => moved);
+        card.addEventListener('click', (e) => {
+          if (moved) {
+            e.preventDefault();
+            return;
+          }
+          if (i !== activeIndex) {
+            activeIndex = i;
+            render();
+          }
+        });
         rotator.appendChild(card);
+        cards.push(card);
       });
 
-      let currentAngle = 0;
-      let isPointerDown = false;
-      let startX = 0;
-      let startAngle = 0;
-      let autoRotate = true;
-      let resumeTimeout;
-
-      function animate() {
-        if (autoRotate && !isPointerDown) {
-          currentAngle -= 0.2;
-          rotator.style.transform = `rotateY(${currentAngle}deg)`;
-        }
-        requestAnimationFrame(animate);
+      function circularDistance(index, active) {
+        let d = index - active;
+        const n = cards.length;
+        if (d > n / 2) d -= n;
+        if (d < -n / 2) d += n;
+        return d;
       }
-      requestAnimationFrame(animate);
+
+      function render() {
+        cards.forEach((card, i) => {
+          const d = circularDistance(i, activeIndex);
+          const abs = Math.abs(d);
+
+          // Keep the nearest cards visible as a hand, with the active card lifted clear.
+          if (abs > 4) {
+            card.style.opacity = '0';
+            card.style.pointerEvents = 'none';
+            card.style.filter = 'blur(2px)';
+            card.style.zIndex = '0';
+            card.style.transform = 'translate3d(0, 80px, -80px) scale(.72) rotateZ(0deg)';
+            return;
+          }
+
+          const x = d * spread;
+          const y = abs === 0 ? -lift : abs * 8;
+          const scale = abs === 0 ? 1.08 : Math.max(.78, 1 - abs * .055);
+          const rot = d * rotation;
+          const depth = -abs * 18;
+
+          card.style.opacity = String(Math.max(.3, 1 - abs * .14));
+          card.style.pointerEvents = 'auto';
+          card.style.filter = abs > 2 ? 'brightness(.68)' : abs === 0 ? 'brightness(1.06)' : 'brightness(.86)';
+          card.style.zIndex = String(20 - abs);
+          card.style.transform =
+            `translate3d(${x}px,${y}px,${depth}px) scale(${scale}) rotateZ(${rot}deg)`;
+          card.style.boxShadow = abs === 0
+            ? '0 30px 60px rgba(0,0,0,.58), 0 0 0 1px rgba(242,201,76,.22)'
+            : '0 22px 45px rgba(0,0,0,.42)';
+        });
+      }
+
+      function goTo(index) {
+        const n = cards.length;
+        activeIndex = ((index % n) + n) % n;
+        render();
+      }
 
       stage.addEventListener('pointerdown', (e) => {
-        isPointerDown = true;
-        hasMoved = false;
-        autoRotate = false;
-        clearTimeout(resumeTimeout);
+        pointerDown = true;
+        moved = false;
         startX = e.clientX;
-        startAngle = currentAngle;
+        startIndex = activeIndex;
         try { stage.setPointerCapture(e.pointerId); } catch (_) {}
       });
 
       stage.addEventListener('pointermove', (e) => {
-        if (!isPointerDown) return;
-        const deltaX = e.clientX - startX;
-        if (Math.abs(deltaX) > 6) hasMoved = true;
-        currentAngle = startAngle + (deltaX * 0.08);
-        rotator.style.transform = `rotateY(${currentAngle}deg)`;
+        if (!pointerDown) return;
+        const delta = e.clientX - startX;
+        if (Math.abs(delta) > 8) moved = true;
       });
 
-      const stopDrag = () => {
-        if (!isPointerDown) return;
-        isPointerDown = false;
-        resumeTimeout = setTimeout(() => {
-          autoRotate = true;
-          hasMoved = false;
-        }, 1500);
+      const stopDrag = (e) => {
+        if (!pointerDown) return;
+        const delta = e.clientX - startX;
+        pointerDown = false;
+
+        if (Math.abs(delta) > 35) {
+          // RTL-friendly: drag left advances through the fan.
+          goTo(startIndex + (delta < 0 ? 1 : -1));
+          setTimeout(() => { moved = false; }, 80);
+        } else {
+          setTimeout(() => { moved = false; }, 0);
+        }
       };
 
       stage.addEventListener('pointerup', stopDrag);
       stage.addEventListener('pointercancel', stopDrag);
+
+      render();
     }
 
     // جلب وتوزيع المنتجات في حلقة 3D
     const { data: products } = await supabase.from('products').select('*').order('sort_order');
     const prodStage = document.getElementById('prodRingStage');
     const prodRotator = document.getElementById('prodRingRotator');
-    setupRing3D(prodStage, prodRotator, products || [], (card, p, checkMoved) => {
+    setupRing3D(prodStage, prodRotator, products || [], (card, p) => {
       card.innerHTML = `
         <img src="${p.image_url || ''}" alt="${p.name || ''}" style="height:75%;object-fit:cover;">
         <div class="ring-card-info" style="height:25%;">
@@ -928,12 +979,10 @@
         </div>
       `;
       card.style.cursor = 'pointer';
-      card.addEventListener('click', () => {
-        if (!checkMoved()) openProduct(p);
-      });
-    }, 28);
+      card.addEventListener('click', () => openProduct(p));
+    });
 
-    // جلب وتوزيع معرض الأعمال في حلقة 3D
+    // جلب وتوزيع معرض الأعمال في Fan Carousel
     const { data: gallery } = await supabase.from('gallery').select('*').order('sort_order');
     const galStage = document.getElementById('galRingStage');
     const galRotator = document.getElementById('galRingRotator');
