@@ -826,9 +826,11 @@
       const count = items.length;
       const angleStep = 360 / count;
       const cardWidth = 200;
-      const radius = count > 2 
-        ? Math.min(460, Math.max(220, Math.round((cardWidth / 2) / Math.tan(Math.PI / count))))
-        : (count === 2 ? 220 : 0);
+      // حساب نصف القطر حسب عرض البطاقة + المسافة المطلوبة فعلياً بين المنتجات
+      const cardActualWidth = cardWidth - 12; // بسبب inset: 0 6px
+      const radius = count > 2
+        ? Math.min(700, Math.max(220, Math.ceil((cardActualWidth + cardGap) / (2 * Math.sin(Math.PI / count)))))
+        : (count === 2 ? 220 + cardGap : 0);
 
       let hasMoved = false;
 
@@ -908,7 +910,7 @@
       card.addEventListener('click', () => {
         if (!checkMoved()) openProduct(p);
       });
-    }, 80);
+    }, 28);
 
     // جلب وتوزيع معرض الأعمال في حلقة 3D
     const { data: gallery } = await supabase.from('gallery').select('*').order('sort_order');
