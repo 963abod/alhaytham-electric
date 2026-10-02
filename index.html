@@ -836,7 +836,7 @@
         const card = document.createElement('div');
         card.className = 'ring-card';
         // إضافة مسافة فعلية بين بطاقات المنتجات بدون تغيير حجم الصور
-        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius + (cardGap * 3)}px)`;
+        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius + 35}px)`;
         renderCard(card, item, () => hasMoved);
         rotator.appendChild(card);
       });
