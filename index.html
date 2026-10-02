@@ -920,15 +920,14 @@
     const prodStage = document.getElementById('prodRingStage');
     const prodRotator = document.getElementById('prodRingRotator');
     setupRing3D(prodStage, prodRotator, products || [], (card, p, checkMoved) => {
-      const imgHtml = p.image_url 
-        ? `<img src="${p.image_url}" alt="${p.name}">` 
-        : `<div style="height:70%;display:flex;align-items:center;justify-content:center;background:var(--bg-2);"><svg style="width:40px;height:40px;color:var(--gold);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M3 14h18M9 4v16M15 4v16"/></svg></div>`;
-      
+      const imgHtml = p.image_url
+        ? `<img src="${p.image_url}" alt="${p.name}" style="height:75%;object-fit:cover;">`
+        : `<div style="height:75%;display:flex;align-items:center;justify-content:center;background:var(--bg-2);"><svg style="width:40px;height:40px;color:var(--gold);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M3 14h18M9 4v16M15 4v16"/></svg></div>`;
+
       card.innerHTML = `
         ${imgHtml}
-        <div class="ring-card-info">
+        <div class="ring-card-info" style="height:25%;">
           <h4>${p.name}</h4>
-          <p>${p.category || 'عرض التفاصيل'}</p>
         </div>
       `;
       card.style.cursor = 'pointer';
