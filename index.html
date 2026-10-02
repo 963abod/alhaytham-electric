@@ -640,6 +640,19 @@
   </div>
 </div>
 
+<div id="gallery-detail" class="pd-overlay">
+  <div class="pd-sheet">
+    <button class="pd-close" onclick="closeGallery()" aria-label="العودة إلى الأعمال" type="button">
+      <span aria-hidden="true">←</span>
+      العودة إلى الأعمال
+    </button>
+    <div class="pd-img-wrap" id="gd-img-wrap"></div>
+    <div class="pd-body">
+      <h2 id="gd-name"></h2>
+    </div>
+  </div>
+</div>
+
 <footer id="site-footer">
   <span id="footer-copyright">© 2026 ورشة الهيثم للكهرباء — جميع الحقوق محفوظة</span><br>
   <a href="https://aboudweb.onrender.com" target="_blank" rel="noopener"
@@ -801,6 +814,33 @@
     }
 
   });
+
+  window.openGallery = function(g){
+    const detail = document.getElementById('gallery-detail');
+    const imageWrap = document.getElementById('gd-img-wrap');
+    const name = document.getElementById('gd-name');
+
+    imageWrap.innerHTML = g.image_url
+      ? `<img src="${g.image_url}" alt="${g.caption || 'عمل منفذ'}" loading="eager">`
+      : '';
+
+    name.textContent = g.caption || 'عمل منفذ';
+    detail.classList.add('open');
+    document.body.classList.add('product-view-open');
+    window.scrollTo({top:0, behavior:'instant'});
+  };
+
+  window.closeGallery = function(){
+    const detail = document.getElementById('gallery-detail');
+    detail.classList.remove('open');
+    document.body.classList.remove('product-view-open');
+    setTimeout(() => {
+      if(!detail.classList.contains('open')){
+        document.getElementById('gd-img-wrap').innerHTML = '';
+        document.getElementById('gd-name').textContent = '';
+      }
+    },350);
+  };
 
   async function loadSite(){
     const { data: settings } = await supabase.from('site_settings').select('*').eq('id',1).single();
@@ -996,6 +1036,7 @@
           <h4>${g.caption || 'عمل منفذ'}</h4>
         </div>
       `;
+      card.addEventListener('click', () => openGallery(g));
     });
     document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
   }
