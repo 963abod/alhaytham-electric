@@ -875,9 +875,12 @@
         card.addEventListener('click', (e) => {
           if (moved) {
             e.preventDefault();
+            e.stopImmediatePropagation();
             return;
           }
           if (i !== activeIndex) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
             activeIndex = i;
             render();
           }
@@ -955,7 +958,7 @@
         if (Math.abs(delta) > 35) {
           // RTL-friendly: drag left advances through the fan.
           goTo(startIndex + (delta < 0 ? 1 : -1));
-          setTimeout(() => { moved = false; }, 80);
+          setTimeout(() => { moved = false; }, 250);
         } else {
           setTimeout(() => { moved = false; }, 0);
         }
