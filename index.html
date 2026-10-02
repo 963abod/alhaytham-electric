@@ -817,7 +817,7 @@
     });
 
         // ================= محرك التدوير 3D Ring =================
-    function setupRing3D(stage, rotator, items, renderCard) {
+    function setupRing3D(stage, rotator, items, renderCard, cardGap = 0) {
       if (!items || !items.length) {
         rotator.innerHTML = '<p style="color:var(--ink-muted);text-align:center;padding-top:120px;">لا توجد عناصر حالياً</p>';
         return;
@@ -835,7 +835,8 @@
       items.forEach((item, i) => {
         const card = document.createElement('div');
         card.className = 'ring-card';
-        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px)`;
+        // إضافة مسافة فعلية بين بطاقات المنتجات بدون تغيير حجم الصور
+        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius + cardGap}px)`;
         renderCard(card, item, () => hasMoved);
         rotator.appendChild(card);
       });
@@ -907,7 +908,7 @@
       card.addEventListener('click', () => {
         if (!checkMoved()) openProduct(p);
       });
-    });
+    }, 6);
 
     // جلب وتوزيع معرض الأعمال في حلقة 3D
     const { data: gallery } = await supabase.from('gallery').select('*').order('sort_order');
