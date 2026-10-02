@@ -836,7 +836,7 @@
         const card = document.createElement('div');
         card.className = 'ring-card';
         // إضافة مسافة فعلية بين بطاقات المنتجات بدون تغيير حجم الصور
-        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius + 35}px)`;
+        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius + cardGap}px)`;
         renderCard(card, item, () => hasMoved);
         rotator.appendChild(card);
       });
@@ -908,7 +908,7 @@
       card.addEventListener('click', () => {
         if (!checkMoved()) openProduct(p);
       });
-    }, 6);
+    }, 80);
 
     // جلب وتوزيع معرض الأعمال في حلقة 3D
     const { data: gallery } = await supabase.from('gallery').select('*').order('sort_order');
