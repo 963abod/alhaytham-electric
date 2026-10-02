@@ -99,6 +99,30 @@
       margin-top: -10px;
       margin-bottom: 20px;
     }
+    @media (max-width: 639px){
+      .ring-stage{
+        height: 340px;
+      }
+      .ring-rotator{
+        width: 160px;
+        height: 224px;
+      }
+      .ring-card{
+        inset: 0 5px;
+        border-radius: 13px;
+      }
+      .ring-card-info{
+        padding: 7px 9px;
+      }
+      .ring-card-info h4{
+        font-size: 0.78rem;
+      }
+      .ring-card-info p{
+        font-size: 0.66rem;
+        margin-top: 2px;
+      }
+    }
+
     
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -825,9 +849,10 @@
       rotator.innerHTML = '';
       const count = items.length;
       const angleStep = 360 / count;
-      const cardWidth = 200;
-      // حساب نصف القطر حسب عرض البطاقة + المسافة المطلوبة فعلياً بين المنتجات
-      const cardActualWidth = cardWidth - 12; // بسبب inset: 0 6px
+      const isMobile = window.matchMedia('(max-width: 639px)').matches;
+      const cardWidth = isMobile ? 160 : 200;
+      // العرض الفعلي للكرت بعد الـ inset
+      const cardActualWidth = cardWidth - (isMobile ? 10 : 12);
       const radius = count > 2
         ? Math.min(700, Math.max(220, Math.ceil((cardActualWidth + cardGap) / (2 * Math.sin(Math.PI / count)))))
         : (count === 2 ? 220 + cardGap : 0);
@@ -838,7 +863,7 @@
         const card = document.createElement('div');
         card.className = 'ring-card';
         // إضافة مسافة فعلية بين بطاقات المنتجات بدون تغيير حجم الصور
-        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius + cardGap}px)`;
+        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px)`;
         renderCard(card, item, () => hasMoved);
         rotator.appendChild(card);
       });
